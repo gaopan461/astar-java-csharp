@@ -113,24 +113,24 @@ public class AStarCell implements Comparable<AStarCell> {
 		return obstacle;
 	}
 
-	public void setObstacle(boolean isObstical) {
-		this.obstacle = isObstical;
+	public void setObstacle(boolean obstacle) {
+		this.obstacle = obstacle;
 	}
 
 	public boolean isStart() {
 		return start;
 	}
 
-	public void setStart(boolean isStart) {
-		this.start = isStart;
+	public void setStart(boolean start) {
+		this.start = start;
 	}
 
 	public boolean isGoal() {
 		return goal;
 	}
 
-	public void setGoal(boolean isGoal) {
-		this.goal = isGoal;
+	public void setGoal(boolean goal) {
+		this.goal = goal;
 	}
 
 	public boolean equals(AStarCell cell) {
