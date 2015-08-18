@@ -13,8 +13,6 @@ public class AStarCell implements Comparable<AStarCell> {
 	private int y;
 	
 	private boolean obstacle;
-	private boolean start;
-	private boolean goal;
 	
 	AStarCell(int x, int y, AStarMap map) {
 		this.x = x;
@@ -22,18 +20,6 @@ public class AStarCell implements Comparable<AStarCell> {
 		this.map = map;
 		this.distanceFromStart = Integer.MAX_VALUE;
 		this.obstacle = false;
-		this.start = false;
-		this.goal = false;
-	}
-	
-	AStarCell (int x, int y, AStarMap map, int distanceFromStart, boolean isObstical, boolean isStart, boolean isGoal) {
-		this.x = x;
-		this.y = y;
-		this.map = map;
-		this.distanceFromStart = distanceFromStart;
-		this.obstacle = isObstical;
-		this.start = isStart;
-		this.goal = isGoal;
 	}
 	
 	public ArrayList<AStarCell> getNeighborList() {
@@ -115,22 +101,6 @@ public class AStarCell implements Comparable<AStarCell> {
 
 	public void setObstacle(boolean obstacle) {
 		this.obstacle = obstacle;
-	}
-
-	public boolean isStart() {
-		return start;
-	}
-
-	public void setStart(boolean start) {
-		this.start = start;
-	}
-
-	public boolean isGoal() {
-		return goal;
-	}
-
-	public void setGoal(boolean goal) {
-		this.goal = goal;
 	}
 
 	public boolean equals(AStarCell cell) {

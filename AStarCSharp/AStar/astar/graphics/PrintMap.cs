@@ -32,15 +32,15 @@ namespace AStar.astar.graphics
                     {
 					    sb.Append("X");
 				    } 
-                    else if(cell.isStart()) 
+                    else if(isStart(shortestPath, cell.getPoint())) 
                     {
 					    sb.Append("s");
 				    } 
-                    else if(cell.isGoal()) 
+                    else if(isGoal(shortestPath, cell.getPoint())) 
                     {
 					    sb.Append("g");
 				    } 
-                    else if (PathContains(shortestPath, cell.getX(), cell.getY())) 
+                    else if (contains(shortestPath, cell.getPoint())) 
                     {
 					    sb.Append("?");
 				    } 
@@ -65,17 +65,35 @@ namespace AStar.astar.graphics
             System.Console.Write(sb.ToString());
 	    }
 
-        private static bool PathContains(List<Point> path, int x, int y)
+        private static bool contains(List<Point> shortestPath, Point point)
         {
-            foreach(Point point in path)
+            foreach (Point p in shortestPath)
             {
-                if (point.x == x && point.y == y)
-                {
+                if (p.Equals(point))
                     return true;
-                }
             }
 
             return false;
+        }
+
+        private static bool isStart(List<Point> shortestPath, Point point)
+        {
+            if (shortestPath.Count <= 0)
+            {
+                return false;
+            }
+
+            return shortestPath[0].Equals(point);
+        }
+
+        private static bool isGoal(List<Point> shortestPath, Point point)
+        {
+            if (shortestPath.Count <= 0)
+            {
+                return false;
+            }
+
+            return shortestPath[shortestPath.Count - 1].Equals(point);
         }
     }
 

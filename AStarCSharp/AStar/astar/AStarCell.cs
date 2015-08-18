@@ -18,8 +18,6 @@ namespace AStar
         private int y;
 
         private bool obstacle;
-        private bool start;
-        private bool goal;
 
         public AStarCell(int x, int y, AStarMap map)
         {
@@ -28,19 +26,6 @@ namespace AStar
             this.map = map;
             this.distanceFromStart = Int32.MaxValue;
             this.obstacle = false;
-            this.start = false;
-            this.goal = false;
-        }
-
-        public AStarCell(int x, int y, AStarMap map, bool visited, int distanceFromStart, bool isObstical, bool isStart, bool isGoal)
-        {
-            this.x = x;
-            this.y = y;
-            this.map = map;
-            this.distanceFromStart = distanceFromStart;
-            this.obstacle = isObstical;
-            this.start = isStart;
-            this.goal = isGoal;
         }
 
         public List<AStarCell> getNeighborList()
@@ -144,31 +129,6 @@ namespace AStar
         public void setObstacle(bool obstacle)
         {
             this.obstacle = obstacle;
-        }
-
-        public bool isStart()
-        {
-            return start;
-        }
-
-        public void setStart(bool start)
-        {
-            this.start = start;
-        }
-
-        public bool isGoal()
-        {
-            return goal;
-        }
-
-        public void setGoal(bool goal)
-        {
-            this.goal = goal;
-        }
-
-        public bool equals(AStarCell cell)
-        {
-            return (cell.x == x) && (cell.y == y);
         }
 
         public int CompareTo(AStarCell otherCell)

@@ -1,6 +1,5 @@
 package pathFinding;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import pathFinding.utils.Logger;
@@ -17,10 +16,6 @@ public class AStarMap {
 	private int mapWith;
 	private int mapHeight;
 	private ArrayList<ArrayList<AStarCell>> map;
-	private int startLocationX = 0;
-	private int startLocationY = 0;
-	private int goalLocationX = 0;
-	private int goalLocationY = 0;
 	private int[][] obstacleMap = {{0}};
 
 	private Logger log = new Logger();
@@ -82,52 +77,6 @@ public class AStarMap {
 	public AStarCell getCell(int x, int y) {
 		return map.get(x).get(y);
 	}
-
-	public void setStartLocation(int x, int y) {
-		map.get(startLocationX).get(startLocationY).setStart(false);
-		map.get(x).get(y).setStart(true);
-		startLocationX = x;
-		startLocationY = y;
-	}
-
-	public void setGoalLocation(int x, int y) {
-		map.get(goalLocationX).get(goalLocationY).setGoal(false);
-		map.get(x).get(y).setGoal(true);
-		goalLocationX = x;
-		goalLocationY = y;
-	}
-
-	public int getStartLocationX() {
-		return startLocationX;
-	}
-
-	public int getStartLocationY() {
-		return startLocationY;
-	}
-	
-	public AStarCell getStartCell() {
-		return map.get(startLocationX).get(startLocationY);
-	}
-
-	public int getGoalLocationX() {
-		return goalLocationX;
-	}
-
-	public int getGoalLocationY() {
-		return goalLocationY;
-	}
-	
-	public Point getGoalPoint() {
-		return new Point(goalLocationX, goalLocationY);
-	}
-	
-	/**
-	 * @return Cell	The Goal Cell
-	 * @see AStarCell
-	 */
-	public AStarCell getGoalCell() {
-		return map.get(goalLocationX).get(goalLocationY);
-	}
 	
 	/**
 	 * Determine the distance between two neighbor Cells 
@@ -158,10 +107,6 @@ public class AStarMap {
 	 * Then remakes the map with the original With and Height. 
 	 */
 	public void clear() {
-		startLocationX = 0;
-		startLocationY = 0;
-		goalLocationX = 0;
-		goalLocationY = 0;
 		createMap();
 	}
 }

@@ -37,9 +37,6 @@ namespace AStar.astar
 
         public List<Point> findStraightPath(Point start, Point goal)
         {
-            map.setStartLocation(start.x, start.y);
-            map.setGoalLocation(goal.x, goal.y);
-
             log.addToLog("AStar Heuristic initializing...");
             AStarHeuristic heuristic = new DiagonalHeuristic();
 

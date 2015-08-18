@@ -26,9 +26,8 @@ namespace AStar
 
         public List<Point> calcShortestPath(int startX, int startY, int goalX, int goalY) 
         {
-		    //mark start and goal cell
-		    map.setStartLocation(startX, startY);
-		    map.setGoalLocation(goalX, goalY);
+            AStarCell startCell = map.getCell(startX, startY);
+            AStarCell goalCell = map.getCell(goalX, goalY);
 
 		    //Check if the goal cell is also an obstacle (if it is, it is impossible to find a path there)
 		    if (map.getCell(goalX, goalY).isObstacle()) 
@@ -36,10 +35,10 @@ namespace AStar
 			    return null;
 		    }
 
-		    map.getStartCell().setDistanceFromStart(0);
+		    startCell.setDistanceFromStart(0);
 		    closedList.Clear();
 		    openList.Clear();
-		    openList.Add(map.getStartCell());
+		    openList.Add(startCell);
 
 		    //while we haven't reached the goal yet
 		    while(openList.Count() != 0) 
@@ -48,7 +47,7 @@ namespace AStar
 			    AStarCell current = openList[0];
 
 			    // check if our current Cell location is the goal Cell. If it is, we are done.
-			    if(current.getX() == map.getGoalLocationX() && current.getY() == map.getGoalLocationY()) 
+			    if(current.getX() == goalX && current.getY() == goalY) 
                 {
 				    return reconstructPath(current);
 			    }
@@ -92,7 +91,7 @@ namespace AStar
                         {
 						    neighbor.setPreviousCell(current);
 						    neighbor.setDistanceFromStart(neighborDistanceFromStart);
-						    neighbor.setHeuristicDistanceFromGoal(heuristic.getEstimatedDistanceToGoal(neighbor.getPoint(), map.getGoalPoint()));
+						    neighbor.setHeuristicDistanceFromGoal(heuristic.getEstimatedDistanceToGoal(neighbor.getPoint(), goalCell.getPoint()));
 
                             // csharp List.Sort use QuickSort, which is unstable, 
                             // but in java implement ArrayList.sort use MergeSort, which is stable,

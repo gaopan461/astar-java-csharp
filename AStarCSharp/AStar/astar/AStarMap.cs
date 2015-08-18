@@ -19,10 +19,6 @@ namespace AStar
         private int mapWith;
         private int mapHeight;
         private List<List<AStarCell>> map;
-        private int startLocationX = 0;
-        private int startLocationY = 0;
-        private int goalLocationX = 0;
-        private int goalLocationY = 0;
         private int[][] obstacleMap;
 
         private Logger log = new Logger();
@@ -120,61 +116,6 @@ namespace AStar
             return map[x][y];
         }
 
-        public void setStartLocation(int x, int y)
-        {
-            map[startLocationX][startLocationY].setStart(false);
-            map[x][y].setStart(true);
-            startLocationX = x;
-            startLocationY = y;
-        }
-
-        public void setGoalLocation(int x, int y)
-        {
-            map[goalLocationX][goalLocationY].setGoal(false);
-            map[x][y].setGoal(true);
-            goalLocationX = x;
-            goalLocationY = y;
-        }
-
-        public int getStartLocationX()
-        {
-            return startLocationX;
-        }
-
-        public int getStartLocationY()
-        {
-            return startLocationY;
-        }
-
-        public AStarCell getStartCell()
-        {
-            return map[startLocationX][startLocationY];
-        }
-
-        public int getGoalLocationX()
-        {
-            return goalLocationX;
-        }
-
-        public int getGoalLocationY()
-        {
-            return goalLocationY;
-        }
-
-        public Point getGoalPoint()
-        {
-            return new Point(goalLocationX, goalLocationY);
-        }
-
-        /**
-         * @return Cell	The Goal Cell
-         * @see Cell
-         */
-        public AStarCell getGoalCell()
-        {
-            return map[goalLocationX][goalLocationY];
-        }
-
         /**
          * Determine the distance between two neighbor Cells 
          * as used by the AStar algorithm.
@@ -211,10 +152,6 @@ namespace AStar
          */
         public void clear()
         {
-            startLocationX = 0;
-            startLocationY = 0;
-            goalLocationX = 0;
-            goalLocationY = 0;
             createMap();
         }
     }

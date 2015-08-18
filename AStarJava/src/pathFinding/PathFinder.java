@@ -32,10 +32,7 @@ public class PathFinder {
 		return hitPoint;
 	}
 	
-	public ArrayList<Point> findStraightPath(Point start, Point goal) {
-		map.setStartLocation(start.x, start.y);
-		map.setGoalLocation(goal.x, goal.y);
-		
+	public ArrayList<Point> findStraightPath(Point start, Point goal) {		
 		log.addToLog("AStar Heuristic initializing...");
 		AStarHeuristic heuristic = new DiagonalHeuristic();
 		

@@ -5,11 +5,8 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-import pathFinding.AStar;
 import pathFinding.AStarMap;
 import pathFinding.PathFinder;
-import pathFinding.heuristics.AStarHeuristic;
-import pathFinding.heuristics.DiagonalHeuristic;
 import pathFinding.utils.Logger;
 import pathFinding.utils.StopWatch;
 

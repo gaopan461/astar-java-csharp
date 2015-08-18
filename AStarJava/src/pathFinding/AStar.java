@@ -21,19 +21,18 @@ public class AStar {
 	}
 
 	public ArrayList<Point> calcShortestPath(int startX, int startY, int goalX, int goalY) {
-		//mark start and goal cell
-		map.setStartLocation(startX, startY);
-		map.setGoalLocation(goalX, goalY);
-
+		AStarCell startCell = map.getCell(startX, startY);
+		AStarCell goalCell = map.getCell(goalX, goalY);
+		
 		//Check if the goal cell is also an obstacle (if it is, it is impossible to find a path there)
-		if (map.getCell(goalX, goalY).isObstacle()) {
+		if (goalCell.isObstacle()) {
 			return null;
 		}
 
-		map.getStartCell().setDistanceFromStart(0);
+		startCell.setDistanceFromStart(0);
 		closedList.clear();
 		openList.clear();
-		openList.add(map.getStartCell());
+		openList.add(startCell);
 
 		//while we haven't reached the goal yet
 		while(openList.size() != 0) {
@@ -42,7 +41,7 @@ public class AStar {
 			AStarCell current = openList.get(0);
 
 			// check if our current Cell location is the goal Cell. If it is, we are done.
-			if(current.getX() == map.getGoalLocationX() && current.getY() == map.getGoalLocationY()) {
+			if(current.getX() == goalX && current.getY() == goalY) {
 				return reconstructPath(current);
 			}
 
@@ -78,7 +77,7 @@ public class AStar {
 					if (neighborIsBetter) {
 						neighbor.setPreviousCell(current);
 						neighbor.setDistanceFromStart(neighborDistanceFromStart);
-						neighbor.setHeuristicDistanceFromGoal(heuristic.getEstimatedDistanceToGoal(neighbor.getPoint(), map.getGoalPoint()));
+						neighbor.setHeuristicDistanceFromGoal(heuristic.getEstimatedDistanceToGoal(neighbor.getPoint(), goalCell.getPoint()));
 						
 						Collections.sort(openList);
 					}
