@@ -18,7 +18,24 @@ public class PathFinder {
 		this.map = map;
 	}
 	
-	public ArrayList<Point> getWaypoints() {
+	public Point raycast(Point start, Point goal) {
+		ArrayList<Point> pointsOnLine = BresenhamsLine.getCellsOnLine(start, goal);
+		
+		Point hitPoint = (Point) start.clone();
+		for(Point p : pointsOnLine) {
+			if(map.getCell(p.x, p.y).isObstacle()) {
+				break;
+			} else {
+				hitPoint = p;
+			}
+		}
+		return hitPoint;
+	}
+	
+	public ArrayList<Point> findStraightPath(Point start, Point goal) {
+		map.setStartLocation(start.x, start.y);
+		map.setGoalLocation(goal.x, goal.y);
+		
 		log.addToLog("AStar Heuristic initializing...");
 		AStarHeuristic heuristic = new DiagonalHeuristic();
 		
@@ -33,14 +50,14 @@ public class PathFinder {
 		
 		log.addToLog("Calculating optimized waypoints...");
 		s.start();
-		ArrayList<Point> waypoints = calculateWayPoints(shortestPath);
+		ArrayList<Point> waypoints = calcStraightPath(shortestPath);
 		s.stop();
 		log.addToLog("Time to calculate waypoints: " + s.getElapsedTime() + " ms");
 		
 		return waypoints;
 	}
 	
-	public ArrayList<Point> calculateWayPoints(ArrayList<Point> shortestPath) {
+	public ArrayList<Point> calcStraightPath(ArrayList<Point> shortestPath) {
 		ArrayList<Point> waypoints = new ArrayList<Point>();
 		
 		Point p1 = shortestPath.get(0);

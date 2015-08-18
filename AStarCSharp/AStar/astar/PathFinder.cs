@@ -20,8 +20,26 @@ namespace AStar.astar
             this.map = map;
         }
 
-        public List<Point> getWaypoints()
+        public Point raycast(Point start, Point goal) 
         {
+		    List<Point> pointsOnLine = BresenhamsLine.getCellsOnLine(start, goal);
+		
+		    Point hitPoint = (Point) start.Clone();
+		    foreach(Point p in pointsOnLine) {
+			    if(map.getCell(p.x, p.y).isObstacle()) {
+				    break;
+			    } else {
+				    hitPoint = p;
+			    }
+		    }
+		    return hitPoint;
+	    }
+
+        public List<Point> findStraightPath(Point start, Point goal)
+        {
+            map.setStartLocation(start.x, start.y);
+            map.setGoalLocation(goal.x, goal.y);
+
             log.addToLog("AStar Heuristic initializing...");
             AStarHeuristic heuristic = new DiagonalHeuristic();
 
@@ -36,14 +54,14 @@ namespace AStar.astar
 
             log.addToLog("Calculating optimized waypoints...");
             s.Start();
-            List<Point> waypoints = calculateWayPoints(shortestPath);
+            List<Point> waypoints = calcStraightPath(shortestPath);
             s.Stop();
             log.addToLog("Time to calculate waypoints: " + s.ElapsedMilliseconds + " ms");
 
             return waypoints;
         }
 
-        private List<Point> calculateWayPoints(List<Point> shortestPath)
+        private List<Point> calcStraightPath(List<Point> shortestPath)
         {
             List<Point> waypoints = new List<Point>();
 

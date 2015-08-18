@@ -11,8 +11,8 @@ namespace AStar
         static void Main(string[] args)
         {
             //astar.tests.TestBresenhamsLine.run(args);
-            astar.tests.TestAStar.run(args);
-            //astar.tests.TestPathFinder.run(args);
+            //astar.tests.TestAStar.run(args);
+            astar.tests.TestPathFinder.run(args);
         }
     }
 }

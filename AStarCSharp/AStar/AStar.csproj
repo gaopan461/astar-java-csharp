@@ -49,6 +49,7 @@
     <Compile Include="astar\heuristics\ClosestHeuristic.cs" />
     <Compile Include="astar\heuristics\DiagonalHeuristic.cs" />
     <Compile Include="astar\PathFinder.cs" />
+    <Compile Include="astar\tests\AStarMapData.cs" />
     <Compile Include="astar\tests\TestAStar.cs" />
     <Compile Include="astar\tests\TestBresenhamsLine.cs" />
     <Compile Include="astar\tests\TestPathFinder.cs" />
