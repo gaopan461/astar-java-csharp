@@ -43,7 +43,7 @@ public class PathFinder {
 		AStar aStar = new AStar(map, heuristic);
 		
 		log.addToLog("Calculating shortest path with AStar...");
-		ArrayList<Point> shortestPath = aStar.calcShortestPath(map.getStartLocationX(), map.getStartLocationY(), map.getGoalLocationX(), map.getGoalLocationY());
+		ArrayList<Point> shortestPath = aStar.calcShortestPath(start.x, start.y, goal.x, goal.y);
 		
 		//log.addToLog("Printing map of shortest path...");
 		//new PrintMap(map, shortestPath);

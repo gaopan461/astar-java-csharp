@@ -47,7 +47,7 @@ namespace AStar.astar
             AStar aStar = new AStar(map, heuristic);
 
             log.addToLog("Calculating shortest path with AStar...");
-            List<Point> shortestPath = aStar.calcShortestPath(map.getStartLocationX(), map.getStartLocationY(), map.getGoalLocationX(), map.getGoalLocationY());
+            List<Point> shortestPath = aStar.calcShortestPath(start.x, start.y, goal.x, goal.y);
 
             //log.addToLog("Printing map of shortest path...");
             //new PrintMap(map, shortestPath);
