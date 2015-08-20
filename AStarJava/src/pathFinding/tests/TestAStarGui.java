@@ -60,7 +60,7 @@ public class TestAStarGui extends JFrame {
 		
 		log.addToLog("Time to calculate path in milliseconds: " + s.getElapsedTime());
 		
-		panel.setShortestPath(shortestPath);
+		panel.setPath(shortestPath, new ArrayList<Point>());
 	}
 
 }

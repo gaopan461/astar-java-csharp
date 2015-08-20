@@ -1,9 +1,13 @@
 package pathFinding.tests;
 
+import java.awt.BorderLayout;
 import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import pathFinding.AStar;
 import pathFinding.AStarMap;
@@ -24,9 +28,28 @@ public class TestPathFinderGui extends JFrame {
 	
 	private AStarPanel panel = new AStarPanel(mapData.getObstacleMap(), mapData.getMapWidth(), 
 			mapData.getMapHeight(), cellSize);
+	private JLabel statusBar = new JLabel();
 	
 	public TestPathFinderGui() {
-		add(panel);
+		add(panel, BorderLayout.CENTER);
+		add(statusBar, BorderLayout.SOUTH);
+		
+		addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				super.mouseClicked(e);
+				
+				startX = goalX;
+				startY = goalY;
+				
+				goalX = (e.getX() - panel.getX()) / cellSize;
+				goalY = mapData.getMapHeight() - (e.getY() - panel.getY()) / cellSize;
+				
+				findPath();
+			}
+		});
 	}
 	
 	public static void main(String[] args) {
@@ -41,6 +64,10 @@ public class TestPathFinderGui extends JFrame {
 	}
 	
 	private void findPath() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("start:(").append(startX).append(",").append(startY).append(") ")
+		.append("goal:(").append(goalX).append(",").append(goalY).append(")");
+		
 		Logger log = new Logger();
 		StopWatch s = new StopWatch();
 		
@@ -60,8 +87,7 @@ public class TestPathFinderGui extends JFrame {
 		s.stop();
 		
 		log.addToLog("Time to calculate path in milliseconds: " + s.getElapsedTime());
-		
-		panel.setShortestPath(shortestPath);
+		sb.append(", Time to calculate path:").append(s.getElapsedTime());
 		
 		log.addToLog("Calculating optimized waypoints...");
 		PathFinder pathfinder = new PathFinder(map);
@@ -69,7 +95,9 @@ public class TestPathFinderGui extends JFrame {
 		ArrayList<Point> optimizedPath = pathfinder.calcStraightPath(shortestPath);
 		s.stop();
 		log.addToLog("Time to calculate waypoints: " + s.getElapsedTime() + " ms");
+		sb.append(", Time to calculate waypoints:").append(s.getElapsedTime());
 		
-		panel.setOptimizedPath(optimizedPath);
+		statusBar.setText(sb.toString());
+		panel.setPath(shortestPath, optimizedPath);
 	}
 }

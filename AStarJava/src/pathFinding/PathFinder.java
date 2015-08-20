@@ -3,7 +3,7 @@ package pathFinding;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import pathFinding.bresenhamsLine.BresenhamsLine;
+import pathFinding.bresenhamsLine.Bresenham;
 import pathFinding.heuristics.AStarHeuristic;
 import pathFinding.heuristics.DiagonalHeuristic;
 import pathFinding.utils.Logger;
@@ -19,7 +19,7 @@ public class PathFinder {
 	}
 	
 	public Point raycast(Point start, Point goal) {
-		ArrayList<Point> pointsOnLine = BresenhamsLine.getCellsOnLine(start, goal);
+		ArrayList<Point> pointsOnLine = Bresenham.getCellsOnLine(start, goal);
 		
 		Point hitPoint = (Point) start.clone();
 		for(Point p : pointsOnLine) {
@@ -41,6 +41,9 @@ public class PathFinder {
 		
 		log.addToLog("Calculating shortest path with AStar...");
 		ArrayList<Point> shortestPath = aStar.calcShortestPath(start.x, start.y, goal.x, goal.y);
+		if(shortestPath == null || shortestPath.isEmpty()) {
+			return null;
+		}
 		
 		//log.addToLog("Printing map of shortest path...");
 		//new PrintMap(map, shortestPath);
@@ -55,6 +58,10 @@ public class PathFinder {
 	}
 	
 	public ArrayList<Point> calcStraightPath(ArrayList<Point> shortestPath) {
+		if(shortestPath == null || shortestPath.isEmpty()) {
+			return null;
+		}
+		
 		ArrayList<Point> waypoints = new ArrayList<Point>();
 		
 		Point p1 = shortestPath.get(0);
@@ -84,7 +91,7 @@ public class PathFinder {
 	}
 	
 	private boolean lineClear(Point a, Point b) {
-		ArrayList<Point> pointsOnLine = BresenhamsLine.getCellsOnLine(a, b);
+		ArrayList<Point> pointsOnLine = Bresenham.getCellsOnLine(a, b);
 		for(Point p : pointsOnLine) {
 			if(map.getCell(p.x, p.y).isObstacle()) {
 				return false;

@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 import pathFinding.AStarMap;
-import pathFinding.bresenhamsLine.BresenhamsLine;
+import pathFinding.bresenhamsLine.Bresenham;
 import pathFinding.graphics.PrintMap;
 import pathFinding.utils.Logger;
 import pathFinding.utils.StopWatch;
@@ -15,7 +15,7 @@ public class TestBresenhamsLine {
 	private static int mapHeight = 50;
 	
 	public static void main(String[] args) {
-		Point a = new Point(49, 49);
+		Point a = new Point(22, 23);
 		Point b = new Point(0, 0);
 		
 		Logger log = new Logger();
@@ -26,7 +26,7 @@ public class TestBresenhamsLine {
 		
 		log.addToLog("Generating Bresenham's Line from "+a.x+","+a.y+" to "+b.x+","+b.y+"...");
 		s.start();
-		ArrayList<Point> line = BresenhamsLine.getCellsOnLine(a, b);
+		ArrayList<Point> line = Bresenham.getCellsOnLine(a, b);
 		s.stop();
 		log.addToLog("Generation took " + s.getElapsedTime() + " ms");
 		

@@ -56,6 +56,6 @@ public class TestRaycastGui extends JFrame {
 		path.add(start);
 		path.add(hitPoint);
 		
-		panel.setOptimizedPath(path);
+		panel.setPath(new ArrayList<Point>(), path);
 	}
 }
