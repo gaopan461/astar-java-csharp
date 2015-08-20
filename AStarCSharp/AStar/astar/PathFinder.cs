@@ -22,7 +22,7 @@ namespace AStar.astar
 
         public Point raycast(Point start, Point goal) 
         {
-		    List<Point> pointsOnLine = BresenhamsLine.getCellsOnLine(start, goal);
+		    List<Point> pointsOnLine = Bresenham.getCellsOnLine(start, goal);
 		
 		    Point hitPoint = (Point) start.Clone();
 		    foreach(Point p in pointsOnLine) {
@@ -94,7 +94,7 @@ namespace AStar.astar
 
         private bool lineClear(Point a, Point b)
         {
-		    List<Point> pointsOnLine = BresenhamsLine.getCellsOnLine(a, b);
+		    List<Point> pointsOnLine = Bresenham.getCellsOnLine(a, b);
 		    foreach(Point p in pointsOnLine) 
             {
 			    if(map.getCell(p.x, p.y).isObstacle()) 

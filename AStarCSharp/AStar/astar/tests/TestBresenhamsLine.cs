@@ -27,7 +27,7 @@ namespace AStar.astar.tests
 		
 		    log.addToLog("Generating Bresenham's Line from "+a.x+","+a.y+" to "+b.x+","+b.y+"...");
 		    s.Start();
-		    List<Point> line = BresenhamsLine.getCellsOnLine(a, b);
+		    List<Point> line = Bresenham.getCellsOnLine(a, b);
 		    s.Stop();
 		    log.addToLog("Generation took " + s.ElapsedMilliseconds + " ms");
 		

@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="astar\AStarMap.cs" />
     <Compile Include="astar\AStar.cs" />
-    <Compile Include="astar\bresenhamsLine\BresenhamsLine.cs" />
+    <Compile Include="astar\bresenhamsLine\Bresenham.cs" />
     <Compile Include="astar\graphics\PrintMap.cs" />
     <Compile Include="astar\heuristics\AStarHeuristic.cs" />
     <Compile Include="astar\heuristics\ClosestHeuristic.cs" />
