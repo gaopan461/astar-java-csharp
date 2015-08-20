@@ -23,7 +23,8 @@ public class PathFinder {
 		
 		Point hitPoint = (Point) start.clone();
 		for(Point p : pointsOnLine) {
-			if(map.getCell(p.x, p.y).isObstacle()) {
+			AStarCell cell = map.getCell(p.x, p.y); 
+			if(cell == null || cell.isObstacle()) {
 				break;
 			} else {
 				hitPoint = p;
@@ -93,7 +94,8 @@ public class PathFinder {
 	private boolean lineClear(Point a, Point b) {
 		ArrayList<Point> pointsOnLine = Bresenham.getCellsOnLine(a, b);
 		for(Point p : pointsOnLine) {
-			if(map.getCell(p.x, p.y).isObstacle()) {
+			AStarCell cell = map.getCell(p.x, p.y);
+			if(cell == null || cell.isObstacle()) {
 				return false;
 			}
 		}

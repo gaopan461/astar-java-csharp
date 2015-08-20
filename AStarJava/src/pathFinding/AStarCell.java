@@ -12,41 +12,69 @@ public class AStarCell implements Comparable<AStarCell> {
 	private int x;
 	private int y;
 	
-	private boolean obstacle;
-	
-	AStarCell(int x, int y, AStarMap map) {
+	AStarCell(AStarMap map, int x, int y) {
+		this.map = map;
 		this.x = x;
 		this.y = y;
-		this.map = map;
 		this.distanceFromStart = Integer.MAX_VALUE;
-		this.obstacle = false;
 	}
 	
 	public ArrayList<AStarCell> getNeighborList() {
 		ArrayList<AStarCell> neighborList = new ArrayList<AStarCell>();
 		if (y > 0) {// down
-			neighborList.add(map.getCell(x, (y-1)));
+			AStarCell cell = map.getCell(x, (y-1));
+			if(cell != null) {
+				neighborList.add(cell);
+			}
 		}
+		
 		if (y > 0 && x < (map.getMapWith() - 1)) {// down right
-			neighborList.add(map.getCell(x+1,y-1));
+			AStarCell cell = map.getCell(x+1,y-1);
+			if(cell != null) {
+				neighborList.add(cell);
+			}
 		}
+		
 		if (x < (map.getMapWith()-1)) {// right
-			neighborList.add(map.getCell(x+1,y));
+			AStarCell cell = map.getCell(x+1,y);
+			if(cell != null) {
+				neighborList.add(cell);
+			}
 		}
+		
 		if (x < (map.getMapWith()-1) && y < (map.getMapHeight()-1)) { // up right
-			neighborList.add(map.getCell(x+1,y+1));
+			AStarCell cell = map.getCell(x+1,y+1);
+			if(cell != null) {
+				neighborList.add(cell);
+			}
 		}
+		
 		if (y < (map.getMapHeight()-1)) {// up
-			neighborList.add(map.getCell(x,y+1));
+			AStarCell cell = map.getCell(x,y+1);
+			if(cell != null) {
+				neighborList.add(cell);
+			}
 		}
+		
 		if (x > 0 && y < (map.getMapHeight()-1)) {// up left
-			neighborList.add(map.getCell(x-1,y+1));
+			AStarCell cell = map.getCell(x-1,y+1);
+			if(cell != null) {
+				neighborList.add(cell);
+			}
 		}
+		
 		if (x > 0) {// left
-			neighborList.add(map.getCell(x-1,y));
+			AStarCell cell = map.getCell(x-1,y);
+			if(cell != null) {
+				neighborList.add(cell);
+			}
 		}
+		
 		if (x > 0 && y > 0) {// down left
-			neighborList.add(map.getCell(x-1,y-1));
+			AStarCell cell = map.getCell(x-1,y-1);
+			if(cell != null) {
+				neighborList.add(cell);
+			}
 		}
 		return neighborList;
 	}
@@ -79,16 +107,8 @@ public class AStarCell implements Comparable<AStarCell> {
 		return x;
 	}
 
-	public void setX(int x) {
-		this.x = x;
-	}
-
 	public int getY() {
 		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
 	}
 	
 	public Point getPoint() {
@@ -96,11 +116,7 @@ public class AStarCell implements Comparable<AStarCell> {
 	}
 	
 	public boolean isObstacle() {
-		return obstacle;
-	}
-
-	public void setObstacle(boolean obstacle) {
-		this.obstacle = obstacle;
+		return false;
 	}
 
 	public boolean equals(AStarCell cell) {

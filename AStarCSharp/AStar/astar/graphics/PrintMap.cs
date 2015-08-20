@@ -28,7 +28,7 @@ namespace AStar.astar.graphics
                 {
 				    cell = map.getCell(x, y);
 				
-				    if(cell.isObstacle()) 
+				    if(cell == null || cell.isObstacle()) 
                     {
 					    sb.Append("X");
 				    } 
@@ -57,7 +57,7 @@ namespace AStar.astar.graphics
 			    sb.Append("|");
 			    sb.AppendLine();
 		    }
-		    for (int i=0; i<=map.getMapHeight(); i++)
+		    for (int i = 0; i <= map.getMapHeight(); i++)
             {
                 sb.Append("-");
             }

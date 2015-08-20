@@ -26,7 +26,8 @@ namespace AStar.astar
 		
 		    Point hitPoint = (Point) start.Clone();
 		    foreach(Point p in pointsOnLine) {
-			    if(map.getCell(p.x, p.y).isObstacle()) {
+                AStarCell cell = map.getCell(p.x, p.y);
+			    if(cell == null || cell.isObstacle()) {
 				    break;
 			    } else {
 				    hitPoint = p;
@@ -97,7 +98,8 @@ namespace AStar.astar
 		    List<Point> pointsOnLine = Bresenham.getCellsOnLine(a, b);
 		    foreach(Point p in pointsOnLine) 
             {
-			    if(map.getCell(p.x, p.y).isObstacle()) 
+                AStarCell cell = map.getCell(p.x, p.y);
+			    if(cell == null || cell.isObstacle()) 
                 {
 				    return false;
 			    }

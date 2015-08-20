@@ -1,6 +1,8 @@
 package pathFinding;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import pathFinding.utils.Logger;
 
@@ -15,24 +17,10 @@ public class AStarMap {
 	
 	private int mapWith;
 	private int mapHeight;
-	private ArrayList<ArrayList<AStarCell>> map;
+	private Map<Integer, AStarCell> map = new HashMap<>();
 	private int[][] obstacleMap = {{0}};
 
 	private Logger log = new Logger();
-	
-	/**
-	 * Class constructor specifying the With and Height of a otherwise empty map.
-	 * (no start and goal location or obstacles)
-	 * @param mapWith
-	 * @param mapHeight
-	 */
-	public AStarMap(int mapWith, int mapHeight) {
-		this.mapWith = mapWith;
-		this.mapHeight = mapHeight;
-		
-		createMap();
-		log.addToLog("\tMap Created");
-	}
 	
 	/**
 	 * Class constructor specifying the With, Height and Obstacles of the map.
@@ -55,27 +43,24 @@ public class AStarMap {
 	 * or set methods.
 	 */
 	private void createMap() {
-		AStarCell cell;
-		map = new ArrayList<ArrayList<AStarCell>>();
+		map.clear();
 		for (int x = 0; x < mapWith; x++) {
-			map.add(new ArrayList<AStarCell>());
 			for (int y = 0; y < mapHeight; y++) {
-				cell = new AStarCell(x,y,this);
-				try {
-					if (obstacleMap[y][x] == 1)
-						cell.setObstacle(true);
-				} catch (Exception e) {}
-				map.get(x).add(cell);
+				boolean obstacle = (obstacleMap[y][x] == 1);
+				if(obstacle) {
+					continue;
+				}
+				
+				AStarCell cell = new AStarCell(this, x, y);
+				int cellId = y << 16 | x;
+				map.put(cellId, cell);
 			}
 		}
 	}
 
-	public void setObstacle(int x, int y, boolean isObstical) {
-		map.get(x).get(y).setObstacle(isObstical);
-	}
-
 	public AStarCell getCell(int x, int y) {
-		return map.get(x).get(y);
+		int cellId = y << 16 | x;
+		return map.get(cellId);
 	}
 	
 	/**

@@ -17,15 +17,12 @@ namespace AStar
         private int x;
         private int y;
 
-        private bool obstacle;
-
-        public AStarCell(int x, int y, AStarMap map)
+        public AStarCell(AStarMap map, int x, int y)
         {
+            this.map = map;
             this.x = x;
             this.y = y;
-            this.map = map;
             this.distanceFromStart = Int32.MaxValue;
-            this.obstacle = false;
         }
 
         public List<AStarCell> getNeighborList()
@@ -33,36 +30,76 @@ namespace AStar
             List<AStarCell> neighborList = new List<AStarCell>();
             if (y > 0)
             {// down
-                neighborList.Add(map.getCell(x, (y - 1)));
+                AStarCell cell = map.getCell(x, (y - 1));
+                if(cell != null)
+                {
+                    neighborList.Add(cell);
+                }
             }
+
             if (y > 0 && x < (map.getMapWith() - 1))
             {// down right
-                neighborList.Add(map.getCell(x + 1, y - 1));
+                AStarCell cell = map.getCell(x + 1, y - 1);
+                if(cell != null)
+                {
+                    neighborList.Add(cell);
+                }
             }
+
             if (x < (map.getMapWith() - 1))
             {// right
-                neighborList.Add(map.getCell(x + 1, y));
+                AStarCell cell = map.getCell(x + 1, y);
+                if(cell != null)
+                {
+                    neighborList.Add(cell);
+                }
             }
+
             if (x < (map.getMapWith() - 1) && y < (map.getMapHeight() - 1))
             { // up right
-                neighborList.Add(map.getCell(x + 1, y + 1));
+                AStarCell cell = map.getCell(x + 1, y + 1);
+                if(cell != null)
+                {
+                    neighborList.Add(cell);
+                }
             }
+
             if (y < (map.getMapHeight() - 1))
             {// up
-                neighborList.Add(map.getCell(x, y + 1));
+                AStarCell cell = map.getCell(x, y + 1);
+                if(cell != null)
+                {
+                    neighborList.Add(cell);
+                }
             }
+
             if (x > 0 && y < (map.getMapHeight() - 1))
             {// up left
-                neighborList.Add(map.getCell(x - 1, y + 1));
+                AStarCell cell = map.getCell(x - 1, y + 1);
+                if(cell != null)
+                {
+                    neighborList.Add(cell);
+                }
             }
+
             if (x > 0)
             {// left
-                neighborList.Add(map.getCell(x - 1, y));
+                AStarCell cell = map.getCell(x - 1, y);
+                if(cell != null)
+                {
+                    neighborList.Add(cell);
+                }
             }
+
             if (x > 0 && y > 0)
             {// down left
-                neighborList.Add(map.getCell(x - 1, y - 1));
+                AStarCell cell = map.getCell(x - 1, y - 1);
+                if(cell != null)
+                {
+                    neighborList.Add(cell);
+                }
             }
+
             return neighborList;
         }
 
@@ -101,19 +138,9 @@ namespace AStar
             return x;
         }
 
-        public void setX(int x)
-        {
-            this.x = x;
-        }
-
         public int getY()
         {
             return y;
-        }
-
-        public void setY(int y)
-        {
-            this.y = y;
         }
 
         public Point getPoint()
@@ -123,12 +150,7 @@ namespace AStar
 
         public bool isObstacle()
         {
-            return obstacle;
-        }
-
-        public void setObstacle(bool obstacle)
-        {
-            this.obstacle = obstacle;
+            return false;
         }
 
         public int CompareTo(AStarCell otherCell)

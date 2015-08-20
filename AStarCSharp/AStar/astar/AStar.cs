@@ -29,8 +29,13 @@ namespace AStar
             AStarCell startCell = map.getCell(startX, startY);
             AStarCell goalCell = map.getCell(goalX, goalY);
 
+            if (startCell == null || startCell.isObstacle())
+            {
+                return null;
+            }
+
 		    //Check if the goal cell is also an obstacle (if it is, it is impossible to find a path there)
-		    if (map.getCell(goalX, goalY).isObstacle()) 
+		    if (goalCell == null || goalCell.isObstacle()) 
             {
 			    return null;
 		    }

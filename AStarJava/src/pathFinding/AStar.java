@@ -24,8 +24,13 @@ public class AStar {
 		AStarCell startCell = map.getCell(startX, startY);
 		AStarCell goalCell = map.getCell(goalX, goalY);
 		
+		//Check if the start cell is also an obstacle (if it is, it is impossible to find a path)
+		if (startCell == null || startCell.isObstacle()) {
+			return null;
+		}
+		
 		//Check if the goal cell is also an obstacle (if it is, it is impossible to find a path there)
-		if (goalCell.isObstacle()) {
+		if (goalCell == null || goalCell.isObstacle()) {
 			return null;
 		}
 

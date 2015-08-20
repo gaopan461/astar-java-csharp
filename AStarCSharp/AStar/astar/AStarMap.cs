@@ -18,38 +18,10 @@ namespace AStar
 
         private int mapWith;
         private int mapHeight;
-        private List<List<AStarCell>> map;
+        private Dictionary<int, AStarCell> map = new Dictionary<int,AStarCell>();
         private int[][] obstacleMap;
 
         private Logger log = new Logger();
-
-        /**
-         * Class constructor specifying the With and Height of a otherwise empty map.
-         * (no start and goal location or obstacles)
-         * @param mapWith
-         * @param mapHeight
-         */
-        public AStarMap(int mapWith, int mapHeight)
-        {
-            this.mapWith = mapWith;
-            this.mapHeight = mapHeight;
-            this.obstacleMap = new int[this.mapHeight][];
-            for (int h = 0; h < mapHeight; ++h)
-            {
-                this.obstacleMap[h] = new int[mapWith];
-            }
-
-            for (int h = 0; h < mapHeight; ++h)
-            {
-                for (int w = 0; w < mapWith; ++w)
-                {
-                    this.obstacleMap[h][w] = 0;
-                }
-            }
-
-            createMap();
-            log.addToLog("\tMap Created");
-        }
 
         /**
          * Class constructor specifying the With, Height and Obstacles of the map.
@@ -87,33 +59,30 @@ namespace AStar
          */
         private void createMap()
         {
-            AStarCell cell;
-            map = new List<List<AStarCell>>();
+            map.Clear();
             for (int x = 0; x < mapWith; x++)
             {
-                map.Add(new List<AStarCell>());
                 for (int y = 0; y < mapHeight; y++)
                 {
-                    cell = new AStarCell(x, y, this);
-                    try
+                    bool obstacle = (obstacleMap[y][x] == 1);
+                    if (obstacle)
                     {
-                        if (obstacleMap[y][x] == 1)
-                            cell.setObstacle(true);
+                        continue;
                     }
-                    catch (Exception ) { }
-                    map[x].Add(cell);
+
+                    AStarCell cell = new AStarCell(this, x, y);
+                    int cellId = y << 16 | x;
+                    map.Add(cellId, cell);
                 }
             }
         }
 
-        public void setObstacle(int x, int y, bool isObstical)
-        {
-            map[x][y].setObstacle(isObstical);
-        }
-
         public AStarCell getCell(int x, int y)
         {
-            return map[x][y];
+            int cellId = y << 16 | x;
+            AStarCell cell = null;
+            map.TryGetValue(cellId, out cell);
+            return cell;
         }
 
         /**
@@ -141,6 +110,7 @@ namespace AStar
         {
             return mapWith;
         }
+
         public int getMapHeight()
         {
             return mapHeight;
