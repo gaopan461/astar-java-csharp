@@ -8,6 +8,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -16,6 +17,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,9 +31,7 @@ public class AStarMapToolbarPanel extends JPanel {
 	private JTextField jtfCellWidth = new JTextField(5);
 	private JLabel jlbCellHeight = new JLabel("Height:");
 	private JTextField jtfCellHeight = new JTextField(5);
-	
-	private JButton jbtFill = new JButton("Fill");
-	private JButton jbtClear = new JButton("Clear");
+
 	private JButton jbtFillAll = new JButton("FillAll");
 	private JButton jbtClearAll = new JButton("ClearAll");
 	private JButton jbtSave = new JButton("Save");
@@ -48,9 +49,7 @@ public class AStarMapToolbarPanel extends JPanel {
 		p1.add(jlbCellHeight);
 		p1.add(jtfCellHeight);
 		
-		JPanel p2 = new JPanel(new GridLayout(2, 3, 5, 5));
-		p2.add(jbtFill);
-		p2.add(jbtClear);
+		JPanel p2 = new JPanel(new GridLayout(2, 2, 5, 5));
 		p2.add(jbtFillAll);
 		p2.add(jbtClearAll);
 		p2.add(jbtSave);
@@ -90,22 +89,6 @@ public class AStarMapToolbarPanel extends JPanel {
 			}
 		});
 		
-		jbtFill.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				editorFrame.setOperator(AStarMapEditor.OperatorType.fill);
-			}
-		});
-		
-		jbtClear.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				editorFrame.setOperator(AStarMapEditor.OperatorType.clear);
-			}
-		});
-		
 		jbtFillAll.addActionListener(new ActionListener() {
 			
 			@Override
@@ -128,31 +111,11 @@ public class AStarMapToolbarPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				fdSave.setVisible(true);
 				
-				File file = new File(fdSave.getDirectory(),fdSave.getFile());
-                try {
-                	FileWriter fwriter = new FileWriter(file);
-                	BufferedWriter bwriter = new BufferedWriter(fwriter);
-                    
-                	int[][] map = editorFrame.getEditorPanel().getMap();
-                	int width = editorFrame.getEditorPanel().getCellWidth();
-                	int height = editorFrame.getEditorPanel().getCellHeight();
-                	
-                	bwriter.write(width + "," + height);
-                	bwriter.newLine();
-                	
-                	for(int h = 0; h < height; ++h) {
-                		for(int w = 0; w < width; ++w) {
-                			bwriter.write(map[h][w] + ",");
-                		}
-                		bwriter.newLine();
-                	}
-                	
-                    bwriter.close();  
-                    fwriter.close();  
-                } catch (IOException ex) {  
-                    // TODO Auto-generated catch block  
-                    ex.printStackTrace();  
-                } 
+				String fileName = fdOpen.getFile();
+				if(fileName != null)
+                {
+					AStarMapToolbarPanel.this.saveData();
+                }
 			}
 		});
 		
@@ -162,56 +125,15 @@ public class AStarMapToolbarPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				fdOpen.setVisible(true);
 				
-				if(fdOpen.getFile() != null)
+				String fileName = fdOpen.getFile();
+				if(fileName != null)
                 {
-                    File file = new File(fdOpen.getDirectory(), fdOpen.getFile());
-                    try {
-                        FileReader freader = new FileReader(file);
-                        BufferedReader breader = new BufferedReader(freader);
-                        String line = breader.readLine();
-                        if(line == null) {
-                        	throw new RuntimeException("file empty");
-                        }
-                        
-                        String[] values = line.split(",");
-                        if(values.length < 2) {
-                        	throw new RuntimeException("file invalid");
-                        }
-                        
-                        int width = Integer.parseInt(values[0]);
-                        int height = Integer.parseInt(values[1]);
-                        if(width <= 0 || height <= 0) {
-                        	throw new RuntimeException("file invalid");
-                        }
-                        
-                        int[][] map = new int[height][width];
-                        for(int h = 0; h < height; ++h) {
-                        	line = breader.readLine();
-                        	if(line == null) {
-                        		throw new RuntimeException("file invalid");
-                        	}
-                        	
-                        	values = line.split(",");
-                            if(values.length < width) {
-                            	throw new RuntimeException("file invalid");
-                            }
-                            
-                            for(int w = 0; w < width; ++w) {
-                            	int obstacle = Integer.parseInt(values[w]);
-                            	map[h][w] = (obstacle == 0) ? 0 : 1;
-                            }
-                        }
-                        
-                        editorFrame.loadMap(map, width, height);
-                       
-                        breader.close();
-                        freader.close();
-                    } catch (FileNotFoundException ex) {
-                        // TODO Auto-generated catch block
-                    	ex.printStackTrace();
-                    } catch (IOException ex) {
-                        // TODO Auto-generated catch block
-                    	ex.printStackTrace();
+                    if(fileName.toLowerCase().endsWith(".jpg")
+                    		|| fileName.toLowerCase().endsWith(".png")
+                    		|| fileName.toLowerCase().endsWith(".gif")) {
+                    	AStarMapToolbarPanel.this.loadImage();
+                    } else {
+                    	AStarMapToolbarPanel.this.loadData();
                     }
                 }
 			}
@@ -242,6 +164,145 @@ public class AStarMapToolbarPanel extends JPanel {
 	
 	public void setCellHeight(int cellHeight) {
 		jtfCellHeight.setText("" + cellHeight);
+	}
+	
+	private void saveData() {
+		File file = new File(fdSave.getDirectory(),fdSave.getFile());
+        try {
+        	FileWriter fwriter = new FileWriter(file);
+        	BufferedWriter bwriter = new BufferedWriter(fwriter);
+            
+        	int[][] map = editorFrame.getEditorPanel().getMap();
+        	int width = editorFrame.getEditorPanel().getCellWidth();
+        	int height = editorFrame.getEditorPanel().getCellHeight();
+        	
+        	bwriter.write(width + "," + height);
+        	bwriter.newLine();
+        	
+        	for(int h = 0; h < height; ++h) {
+        		for(int w = 0; w < width; ++w) {
+        			bwriter.write(map[h][w] + ",");
+        		}
+        		bwriter.newLine();
+        	}
+        	
+            bwriter.close();  
+            fwriter.close();  
+        } catch (IOException ex) {  
+            // TODO Auto-generated catch block  
+            ex.printStackTrace();  
+        } 
+	}
+	
+	private void loadData() {
+		File file = new File(fdOpen.getDirectory(), fdOpen.getFile());
+        try {
+            FileReader freader = new FileReader(file);
+            BufferedReader breader = new BufferedReader(freader);
+            String line = breader.readLine();
+            if(line == null) {
+            	throw new RuntimeException("file empty");
+            }
+            
+            String[] values = line.split(",");
+            if(values.length < 2) {
+            	throw new RuntimeException("file invalid");
+            }
+            
+            int width = Integer.parseInt(values[0]);
+            int height = Integer.parseInt(values[1]);
+            if(width <= 0 || height <= 0) {
+            	throw new RuntimeException("file invalid");
+            }
+            
+            int[][] map = new int[height][width];
+            for(int h = 0; h < height; ++h) {
+            	line = breader.readLine();
+            	if(line == null) {
+            		throw new RuntimeException("file invalid");
+            	}
+            	
+            	values = line.split(",");
+                if(values.length < width) {
+                	throw new RuntimeException("file invalid");
+                }
+                
+                for(int w = 0; w < width; ++w) {
+                	int obstacle = Integer.parseInt(values[w]);
+                	map[h][w] = (obstacle == 0) ? 0 : 1;
+                }
+            }
+            
+            editorFrame.loadMap(map, width, height);
+           
+            breader.close();
+            freader.close();
+        } catch (FileNotFoundException ex) {
+            // TODO Auto-generated catch block
+        	ex.printStackTrace();
+        } catch (IOException ex) {
+            // TODO Auto-generated catch block
+        	ex.printStackTrace();
+        }
+	}
+	
+	private void loadImage() {
+		File file = new File(fdOpen.getDirectory(), fdOpen.getFile());
+		BufferedImage bImage = null;
+		try {
+			bImage = ImageIO.read(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		int pixelWidth = bImage.getWidth();
+		int pixelHeight = bImage.getHeight();
+		if(bImage.getMinX() != 0 || bImage.getMinY() != 0) {
+			throw new RuntimeException("file invalid");
+		}
+		
+		int cellWidth = editorFrame.getEditorPanel().getCellWidth();
+		int cellHeight = editorFrame.getEditorPanel().getCellHeight();
+		
+		float cellPixelWidth = (float)pixelWidth / cellWidth;
+		float cellPixelHeight = (float)pixelHeight / cellHeight;
+		float cellPixelSize = Math.min(cellPixelWidth, cellPixelHeight);
+		
+		int[][] map = new int[cellHeight][cellWidth];
+		for(int h = 0; h < cellHeight; ++h) {
+			for(int w = 0; w < cellWidth; ++w) {
+				
+				int pixel = bImage.getRGB(w, h);
+				int obstacle = convertPixelToObstacle(bImage, w, h, cellPixelSize);
+				map[cellHeight - 1 - h][w] = obstacle;
+			}
+		}
+		
+		editorFrame.loadMap(map, cellWidth, cellHeight);
+	}
+	
+	private static int convertPixelToObstacle(BufferedImage bImage, int width, int height, float cellPixelSize) {
+		int startx = (int)(width * cellPixelSize);
+		int starty = (int)(height * cellPixelSize);
+		int endx = (int)((width + 1) * cellPixelSize);
+		int endy = (int)((height + 1) * cellPixelSize);
+		
+		int pixelSumValue = 0;
+		for(int h = starty; h < endy; ++h) {
+			for(int w = startx; w < endx; ++w) {
+				int pixel = bImage.getRGB(w, h);
+				int pixelValue = (pixel & 0xff0000) >> 16 + (pixel & 0xff00) >> 8 + (pixel & 0xff);
+				pixelSumValue += pixelValue;
+			}
+		}
+		
+		int pixelNum = (endy - starty) * (endx - startx);
+		int pixelAvgValue = pixelSumValue / pixelNum;
+		if(pixelAvgValue < 2) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 
 }

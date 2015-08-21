@@ -3,6 +3,7 @@ package org.gaopan.astar;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
@@ -41,7 +42,21 @@ public class AStarMapEditorPanel extends JPanel {
 				} else {
 					map[cellY][cellX] = 0;
 				}
+				
 				repaint();
+			}
+		});
+		
+		this.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				super.mousePressed(e);
+				if(e.getButton() == MouseEvent.BUTTON1) {
+					AStarMapEditorPanel.this.operator = AStarMapEditor.OperatorType.fill;
+				} else {
+					AStarMapEditorPanel.this.operator = AStarMapEditor.OperatorType.clear;
+				}
 			}
 		});
 	}
