@@ -133,7 +133,7 @@ public class TestPathFinderGui extends JFrame {
 					startY = goalY;
 					
 					goalX = e.getX() / cellSize;
-					goalY = mapData.getMapHeight() - e.getY() / cellSize;
+					goalY = e.getY() / cellSize;
 					
 					TestPathFinderGui.this.findPath();
 				}
@@ -145,7 +145,7 @@ public class TestPathFinderGui extends JFrame {
 			super.paintComponent(g);
 			
 			for(int h = 0; h < mapHeight; ++h) {
-				int y = (mapHeight - h) * cellSize;
+				int y = h * cellSize;
 				for(int w = 0; w < mapWidth; ++w) {
 					int x = w * cellSize;
 					boolean isObstacle = (map[h][w] == 1 ? true : false);
@@ -207,7 +207,7 @@ public class TestPathFinderGui extends JFrame {
 			for(int i = 0; i < size; ++i) {
 				Point point = shortestPath.get(i);
 				int x = point.x * cellSize;
-				int y = (mapHeight - point.y) * cellSize;
+				int y = point.y * cellSize;
 				g.fillRect(x, y, cellSize, cellSize);
 			}
 		}
@@ -217,7 +217,7 @@ public class TestPathFinderGui extends JFrame {
 			for(int i = 0; i < size; ++i) {
 				Point point = optimizedPath.get(i);
 				int x = point.x * cellSize + cellSize / 2;
-				int y = (mapHeight - point.y) * cellSize + cellSize / 2;
+				int y = point.y * cellSize + cellSize / 2;
 				polygon.addPoint(x, y);
 			}
 			g.drawPolyline(polygon.xpoints, polygon.ypoints, polygon.npoints);
