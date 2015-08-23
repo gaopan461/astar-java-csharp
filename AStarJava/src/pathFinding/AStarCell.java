@@ -135,4 +135,10 @@ public class AStarCell implements Comparable<AStarCell> {
 			return 1;
 		}
 	}
+	
+	public void reset() {
+		this.distanceFromStart = Integer.MAX_VALUE;
+		this.heuristicDistanceFromGoal = 0;
+		this.previousCell = null;
+	}
 }

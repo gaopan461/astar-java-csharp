@@ -34,6 +34,7 @@ public class AStar {
 			return null;
 		}
 
+		startCell.reset();
 		startCell.setDistanceFromStart(0);
 		closedList.clear();
 		openList.clear();
@@ -70,6 +71,7 @@ public class AStar {
 
 					//add neighbor to the open list if it is not there
 					if(!openList.contains(neighbor)) {
+						neighbor.reset();
 						openList.add(neighbor);
 						neighborIsBetter = true;
 						//if neighbor is closer to start it could also be better
