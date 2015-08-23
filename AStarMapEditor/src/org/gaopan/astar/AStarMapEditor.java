@@ -13,7 +13,7 @@ public class AStarMapEditor extends JFrame {
 	
 	private static final int DEFAULT_CELL_WIDTH = 40;
 	private static final int DEFAULT_CELL_HEIGHT = 40;
-	private static final int DEFAULT_CELL_SIZE = 16;
+	private static final int DEFAULT_CELL_SIZE = 4;
 	
 	private AStarMapEditorPanel editorPanel = new AStarMapEditorPanel(
 			DEFAULT_CELL_WIDTH, DEFAULT_CELL_HEIGHT, DEFAULT_CELL_SIZE);
