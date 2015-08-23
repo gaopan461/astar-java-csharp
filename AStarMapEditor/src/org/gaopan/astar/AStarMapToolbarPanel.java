@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class AStarMapToolbarPanel extends JPanel {
+	private static final int WHITE_PIXEL_VALUE = 255 * 3 - 10;
 	private AStarMapEditor editorFrame;
 	
 	private JLabel jlbCellWidth = new JLabel("Width:");
@@ -111,7 +112,7 @@ public class AStarMapToolbarPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				fdSave.setVisible(true);
 				
-				String fileName = fdOpen.getFile();
+				String fileName = fdSave.getFile();
 				if(fileName != null)
                 {
 					AStarMapToolbarPanel.this.saveData();
@@ -291,14 +292,14 @@ public class AStarMapToolbarPanel extends JPanel {
 		for(int h = starty; h < endy; ++h) {
 			for(int w = startx; w < endx; ++w) {
 				int pixel = bImage.getRGB(w, h);
-				int pixelValue = (pixel & 0xff0000) >> 16 + (pixel & 0xff00) >> 8 + (pixel & 0xff);
+				int pixelValue = ((pixel & 0xff0000) >> 16) + ((pixel & 0xff00) >> 8) + (pixel & 0xff);
 				pixelSumValue += pixelValue;
 			}
 		}
 		
 		int pixelNum = (endy - starty) * (endx - startx);
 		int pixelAvgValue = pixelSumValue / pixelNum;
-		if(pixelAvgValue < 2) {
+		if(pixelAvgValue < WHITE_PIXEL_VALUE) {
 			return 1;
 		} else {
 			return 0;
