@@ -17,7 +17,6 @@ public class AStarMap {
 	private int mapWith;
 	private int mapHeight;
 	private Map<Integer, AStarCell> map = new HashMap<>();
-	private int[][] obstacleMap = {{0}};
 
 	private Logger log = new Logger();
 	
@@ -32,8 +31,7 @@ public class AStarMap {
 	public AStarMap(int mapWith, int mapHeight, int[][] obstacleMap) {
 		this.mapWith = mapWith;
 		this.mapHeight = mapHeight;
-		this.obstacleMap = obstacleMap;
-		createMap();
+		createMap(obstacleMap);
 		log.addToLog("\tMap Created");
 	}
 	
@@ -41,7 +39,7 @@ public class AStarMap {
 	 * Sets up the Cells of the map with the With and Height specified in the constructor
 	 * or set methods.
 	 */
-	private void createMap() {
+	private void createMap(int[][] obstacleMap) {
 		map.clear();
 		for (int x = 0; x < mapWith; x++) {
 			for (int y = 0; y < mapHeight; y++) {
@@ -86,11 +84,4 @@ public class AStarMap {
 		return mapHeight;
 	}
 	
-	/**
-	 * Removes all the map information about start location, goal location and obstacles.
-	 * Then remakes the map with the original With and Height. 
-	 */
-	public void clear() {
-		createMap();
-	}
 }
