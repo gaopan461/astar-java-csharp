@@ -157,7 +157,7 @@ public class MapPanel extends JPanel {
 	}
 	
 	private void drawOptimizedPath(Graphics g) {
-		g.setColor(Color.BLUE);
+		g.setColor(Color.GREEN);
 		Polygon polygon = new Polygon();
 		for(Point point : optimizedPathDrawed) {
 			int x = (int)(point.x * cellSize + cellSize / 2);

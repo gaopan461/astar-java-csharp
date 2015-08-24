@@ -10,6 +10,9 @@ import java.io.IOException;
 import javax.swing.ImageIcon;
 
 public class TileData {
+	public static final String IMAGE_PATH = "images" + File.separatorChar;
+	public static final String ASTAR_PATH = "astar" + File.separatorChar;
+	
 	public static final String IMAGE_SUFFIX = ".gif";
 	public static final String MAP_SUFFIX = ".txt";
 	
@@ -28,7 +31,7 @@ public class TileData {
 	}
 	
 	private void loadImage() {
-		String actualName = fileName + IMAGE_SUFFIX;
+		String actualName = IMAGE_PATH + fileName + IMAGE_SUFFIX;
 		File file = new File(actualName);
 		if(!file.exists()) {
 			throw new RuntimeException("file not exist:" + actualName);
@@ -38,7 +41,7 @@ public class TileData {
 	}
 	
 	private void loadAstar() {
-		String actualName = fileName + MAP_SUFFIX;
+		String actualName = ASTAR_PATH + fileName + MAP_SUFFIX;
 		File file = new File(actualName);
 		if(!file.exists()) {
 			throw new RuntimeException("file not exist:" + actualName);

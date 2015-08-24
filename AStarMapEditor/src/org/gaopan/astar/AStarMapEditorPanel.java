@@ -66,7 +66,7 @@ public class AStarMapEditorPanel extends JPanel {
 		super.paintComponent(g);
 		
 		for(int h = 0; h < cellHeight; ++h) {
-			int y = (cellHeight - h) * cellSize;
+			int y = h * cellSize;
 			for(int w = 0; w < cellWidth; ++w) {
 				int x = w * cellSize;
 				boolean isObstacle = (map[h][w] == 1 ? true : false);

@@ -32,8 +32,6 @@ public class TestRandomMap extends JFrame {
 	private static final int MAX_TRY = 100;
 	private static final int IMAGE_COUNT = 16;
 	
-	private static final String RESOURCE_PATH = "images" + File.separatorChar;
-	
 	private int tileImageWidth;
 	private int tileImageHeight;
 	private int tileAstarWidth;
@@ -116,15 +114,15 @@ public class TestRandomMap extends JFrame {
 		for(int i = 0; i < IMAGE_COUNT; ++i) {
 			List<TileData> tileList = new ArrayList<>();
 			
-			String fileName = RESOURCE_PATH + i;
-			File file = new File(fileName + TileData.IMAGE_SUFFIX);
+			String fileName = "" + i;
+			File file = new File(TileData.IMAGE_PATH + fileName + TileData.IMAGE_SUFFIX);
 			if(file.exists()) {
 				TileData tileData = new TileData(fileName);
 				tileList.add(tileData);
 			} else {
 				for(int j = 1; j <= 10; ++j) {
-					fileName = RESOURCE_PATH + i + "_" + j;
-					file = new File(fileName + TileData.IMAGE_SUFFIX);
+					fileName = i + "_" + j;
+					file = new File(TileData.IMAGE_PATH + fileName + TileData.IMAGE_SUFFIX);
 					if(!file.exists()) {
 						break;
 					}
@@ -197,7 +195,7 @@ public class TestRandomMap extends JFrame {
 				for(int h = 0; h < tileAstarHeight; ++h) {
 					for(int w = 0; w < tileAstarWidth; ++w) {
 						int astarx = c * tileAstarWidth + w;
-						int astary = r * tileAstarHeight + tileAstarHeight - 1 - h;
+						int astary = r * tileAstarHeight + h;
 						astar[astary][astarx] = tileAstar[h][w];
 					}
 				}

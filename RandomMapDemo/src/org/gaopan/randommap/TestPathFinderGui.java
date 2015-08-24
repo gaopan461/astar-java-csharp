@@ -54,7 +54,7 @@ public class TestPathFinderGui extends JFrame {
 	}
 	
 	private void init() {
-		String actualName = "images/100.txt";
+		String actualName = "astar/100.txt";
 		File file = new File(actualName);
 		if(!file.exists()) {
 			throw new RuntimeException("file not exist:" + actualName);

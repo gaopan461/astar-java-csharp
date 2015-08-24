@@ -18,7 +18,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -272,10 +271,8 @@ public class AStarMapToolbarPanel extends JPanel {
 		int[][] map = new int[cellHeight][cellWidth];
 		for(int h = 0; h < cellHeight; ++h) {
 			for(int w = 0; w < cellWidth; ++w) {
-				
-				int pixel = bImage.getRGB(w, h);
 				int obstacle = convertPixelToObstacle(bImage, w, h, cellPixelSize);
-				map[cellHeight - 1 - h][w] = obstacle;
+				map[h][w] = obstacle;
 			}
 		}
 		
