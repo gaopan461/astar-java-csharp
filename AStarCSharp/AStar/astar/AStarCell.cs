@@ -176,5 +176,12 @@ namespace AStar
         {
             return (x == other.x) && (y == other.y);
         }
+
+        public void reset()
+        {
+            this.distanceFromStart = Int32.MaxValue;
+            this.heuristicDistanceFromGoal = 0;
+            this.previousCell = null;
+        }
     }
 }

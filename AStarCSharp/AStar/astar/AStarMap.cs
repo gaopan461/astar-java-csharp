@@ -19,7 +19,6 @@ namespace AStar
         private int mapWith;
         private int mapHeight;
         private Dictionary<int, AStarCell> map = new Dictionary<int,AStarCell>();
-        private int[][] obstacleMap;
 
         private Logger log = new Logger();
 
@@ -35,21 +34,7 @@ namespace AStar
         {
             this.mapWith = mapWith;
             this.mapHeight = mapHeight;
-            this.obstacleMap = new int[this.mapHeight][];
-            for (int h = 0; h < mapHeight; ++h)
-            {
-                this.obstacleMap[h] = new int[mapWith];
-            }
-
-            for (int h = 0; h < mapHeight; ++h)
-            {
-                for (int w = 0; w < mapWith; ++w)
-                {
-                    this.obstacleMap[h][w] = obstacleMap[h][w];
-                }
-            }
-
-            createMap();
+            createMap(obstacleMap);
             log.addToLog("\tMap Created");
         }
 
@@ -57,7 +42,7 @@ namespace AStar
          * Sets up the Cells of the map with the With and Height specified in the constructor
          * or set methods.
          */
-        private void createMap()
+        private void createMap(int[][] obstacleMap)
         {
             map.Clear();
             for (int x = 0; x < mapWith; x++)
@@ -114,15 +99,6 @@ namespace AStar
         public int getMapHeight()
         {
             return mapHeight;
-        }
-
-        /**
-         * Removes all the map information about start location, goal location and obstacles.
-         * Then remakes the map with the original With and Height. 
-         */
-        public void clear()
-        {
-            createMap();
         }
     }
 }

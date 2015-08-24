@@ -40,6 +40,7 @@ namespace AStar
 			    return null;
 		    }
 
+            startCell.reset();
 		    startCell.setDistanceFromStart(0);
 		    closedList.Clear();
 		    openList.Clear();
@@ -79,6 +80,7 @@ namespace AStar
 					    //add neighbor to the open list if it is not there
 					    if(!openList.Contains(neighbor)) 
                         {
+                            neighbor.reset();
 						    openList.Add(neighbor);
 						    neighborIsBetter = true;
 						    //if neighbor is closer to start it could also be better
