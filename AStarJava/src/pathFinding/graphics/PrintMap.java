@@ -3,8 +3,8 @@ package pathFinding.graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import pathFinding.AStarCell;
-import pathFinding.AStarMap;
+import pathFinding.core.AStarCell;
+import pathFinding.core.AStarMap;
 
 public class PrintMap {
 	public PrintMap(AStarMap map, ArrayList<Point> shortestPath) {

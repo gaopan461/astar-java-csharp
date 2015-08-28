@@ -3,8 +3,9 @@ package pathFinding.tests;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import pathFinding.AStar;
-import pathFinding.AStarMap;
+import pathFinding.AStarNormalMap;
+import pathFinding.core.AStar;
+import pathFinding.core.AStarMap;
 import pathFinding.graphics.PrintMap;
 import pathFinding.heuristics.AStarHeuristic;
 import pathFinding.heuristics.DiagonalHeuristic;
@@ -24,7 +25,7 @@ public class TestAStar {
 		StopWatch s = new StopWatch();
 		
 		log.addToLog("Map initializing...");
-		AStarMap map = new AStarMap(mapData.getMapWidth(), mapData.getMapHeight(), mapData.getObstacleMap());
+		AStarMap map = new AStarNormalMap(mapData.getMapWidth(), mapData.getMapHeight(), mapData.getObstacleMap());
 		
 		log.addToLog("Heuristic initializing...");
 		//AStarHeuristic heuristic = new ClosestHeuristic();

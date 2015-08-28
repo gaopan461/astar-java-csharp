@@ -9,8 +9,9 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import pathFinding.AStarMap;
-import pathFinding.PathFinder;
+import pathFinding.AStarNormalMap;
+import pathFinding.core.AStarMap;
+import pathFinding.core.PathFinder;
 import pathFinding.utils.Logger;
 import pathFinding.utils.StopWatch;
 
@@ -46,7 +47,7 @@ public class TestRaycastGui extends JFrame {
 		StopWatch s = new StopWatch();
 		
 		log.addToLog("Map initializing...");
-		AStarMap map = new AStarMap(mapData.getMapWidth(), mapData.getMapHeight(), mapData.getObstacleMap());
+		AStarMap map = new AStarNormalMap(mapData.getMapWidth(), mapData.getMapHeight(), mapData.getObstacleMap());
 		
 		PathFinder pathfinder = new PathFinder(map);
 		s.start();

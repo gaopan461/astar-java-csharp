@@ -16,9 +16,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import pathFinding.AStar;
-import pathFinding.AStarMap;
-import pathFinding.PathFinder;
+import pathFinding.AStarNormalMap;
+import pathFinding.core.AStar;
+import pathFinding.core.AStarMap;
+import pathFinding.core.PathFinder;
 import pathFinding.heuristics.AStarHeuristic;
 import pathFinding.heuristics.DiagonalHeuristic;
 import pathFinding.utils.Logger;
@@ -68,7 +69,7 @@ public class TestPathFinderGui extends JFrame {
 		StopWatch s = new StopWatch();
 		
 		log.addToLog("Map initializing...");
-		AStarMap map = new AStarMap(mapData.getMapWidth(), mapData.getMapHeight(), mapData.getObstacleMap());
+		AStarMap map = new AStarNormalMap(mapData.getMapWidth(), mapData.getMapHeight(), mapData.getObstacleMap());
 		
 		log.addToLog("Heuristic initializing...");
 		//AStarHeuristic heuristic = new ClosestHeuristic();

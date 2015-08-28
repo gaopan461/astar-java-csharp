@@ -21,9 +21,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import pathFinding.AStar;
-import pathFinding.AStarMap;
-import pathFinding.PathFinder;
+import pathFinding.AStarNormalMap;
+import pathFinding.core.AStar;
+import pathFinding.core.AStarMap;
+import pathFinding.core.PathFinder;
 import pathFinding.heuristics.AStarHeuristic;
 import pathFinding.heuristics.DiagonalHeuristic;
 import pathFinding.utils.Logger;
@@ -99,7 +100,7 @@ public class TestPathFinderGui extends JFrame {
             
             panel = new AStarPanel(astar, width, height, cellSize);
             
-            map = new AStarMap(width, height, astar);
+            map = new AStarNormalMap(width, height, astar);
            
             breader.close();
             freader.close();

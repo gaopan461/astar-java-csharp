@@ -3,8 +3,9 @@ package pathFinding.tests;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import pathFinding.AStarMap;
+import pathFinding.AStarNormalMap;
 import pathFinding.bresenhamsLine.Bresenham;
+import pathFinding.core.AStarMap;
 import pathFinding.graphics.PrintMap;
 import pathFinding.utils.Logger;
 import pathFinding.utils.StopWatch;
@@ -31,7 +32,7 @@ public class TestBresenhamsLine {
 		StopWatch s = new StopWatch();
 		
 		log.addToLog("Initializing "+mapWidth+"x"+mapHeight+" map...");
-		AStarMap map = new AStarMap(mapWidth, mapHeight, obstacleMap);
+		AStarMap map = new AStarNormalMap(mapWidth, mapHeight, obstacleMap);
 		
 		log.addToLog("Generating Bresenham's Line from "+a.x+","+a.y+" to "+b.x+","+b.y+"...");
 		s.start();

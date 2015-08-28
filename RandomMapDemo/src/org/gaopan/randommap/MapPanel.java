@@ -14,9 +14,10 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import pathFinding.AStar;
-import pathFinding.AStarMap;
-import pathFinding.PathFinder;
+import pathFinding.AStarNormalMap;
+import pathFinding.core.AStar;
+import pathFinding.core.AStarMap;
+import pathFinding.core.PathFinder;
 import pathFinding.heuristics.AStarHeuristic;
 import pathFinding.heuristics.DiagonalHeuristic;
 import pathFinding.utils.Logger;
@@ -119,7 +120,7 @@ public class MapPanel extends JPanel {
 	}
 	
 	public void setAstar(int[][] astar, int width, int height) {
-		astarMap = new AStarMap(width, height, astar);
+		astarMap = new AStarNormalMap(width, height, astar);
 		
 		start = null;
 		goal = null;

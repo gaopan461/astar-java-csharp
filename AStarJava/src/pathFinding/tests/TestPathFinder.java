@@ -3,8 +3,9 @@ package pathFinding.tests;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import pathFinding.AStarMap;
-import pathFinding.PathFinder;
+import pathFinding.AStarNormalMap;
+import pathFinding.core.AStarMap;
+import pathFinding.core.PathFinder;
 import pathFinding.graphics.PrintMap;
 import pathFinding.utils.Logger;
 import pathFinding.utils.StopWatch;
@@ -22,7 +23,7 @@ public class TestPathFinder {
 		StopWatch s = new StopWatch();
 		
 		log.addToLog("Map initializing...");
-		AStarMap map = new AStarMap(mapData.getMapWidth(), mapData.getMapHeight(), mapData.getObstacleMap());
+		AStarMap map = new AStarNormalMap(mapData.getMapWidth(), mapData.getMapHeight(), mapData.getObstacleMap());
 		
 		s.start();
 		
