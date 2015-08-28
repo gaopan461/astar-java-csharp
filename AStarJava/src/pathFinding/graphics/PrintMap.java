@@ -9,15 +9,15 @@ import pathFinding.core.AStarMap;
 public class PrintMap {
 	public PrintMap(AStarMap map, ArrayList<Point> shortestPath) {
 		AStarCell cell;
-		for(int y = 0; y < map.getMapHeight(); y++) {
+		for(int y = 0; y < map.getHeightInCells(); y++) {
 			if(y == 0) {
-				for (int i = 0; i <= map.getMapHeight(); i++)
+				for (int i = 0; i <= map.getHeightInCells(); i++)
 					System.out.print("-");
 				System.out.println();	
 			}
 			System.out.print("|");
 
-			for(int x = 0; x < map.getMapWith(); x++) {
+			for(int x = 0; x < map.getWidthInCells(); x++) {
 				cell = map.getCell(x, y);
 				if(cell == null || cell.isObstacle()) {
 					System.out.print("X");
@@ -30,14 +30,14 @@ public class PrintMap {
 				} else {
 					System.out.print(" ");
 				}
-				if(y == map.getMapHeight())
+				if(y == map.getHeightInCells())
 					System.out.print("_");
 			}
 
 			System.out.print("|");
 			System.out.println();
 		}
-		for (int i = 0; i <= map.getMapHeight(); i++)
+		for (int i = 0; i <= map.getHeightInCells(); i++)
 			System.out.print("-");
 	}
 	

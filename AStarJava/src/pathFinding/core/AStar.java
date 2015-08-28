@@ -67,7 +67,7 @@ public class AStar {
 				if (!neighbor.isObstacle()) {
 
 					// calculate how long the path is if we choose this neighbor as the next step in the path 
-					float neighborDistanceFromStart = (current.getDistanceFromStart() + map.getDistanceBetween(current, neighbor));
+					float neighborDistanceFromStart = (current.getDistanceFromStart() + AStarMap.getDistanceBetween(current, neighbor));
 
 					//add neighbor to the open list if it is not there
 					if(!openList.contains(neighbor)) {

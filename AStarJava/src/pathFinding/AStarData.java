@@ -8,11 +8,11 @@ import java.io.IOException;
 public class AStarData {
 private static final String SPLIT_SUFFIX = ",";
 	
-	private int cellWidth;			// Íø¸ñÁĞÊı(¿í¶È)
-	private int cellHeight;			// Íø¸ñĞĞÊı(¸ß¶È)
-	private float cellSize;			// Íø¸ñ´óĞ¡(Íø¸ñÊÇÕı·½ĞÎ£¬Ã¿¸öÍø¸ñ¶àÉÙÃ×)
-	private int[][] obstacleInfo;	// Íø¸ñ×èµ²ĞÅÏ¢
-	private float[][] heightInfo;	// Íø¸ñ¸ß¶ÈĞÅÏ¢
+	private int widthInCells;
+	private int heightInCells;
+	private float cellSize;
+	private int[][] obstacleInfo;
+	private float[][] heightInfo;
 	
 	public AStarData(File file) {
 		String fileName = file.getName();
@@ -23,28 +23,28 @@ private static final String SPLIT_SUFFIX = ",";
 			
 			String[] headerInfo = br.readLine().split(SPLIT_SUFFIX);
 			if(headerInfo.length != 3) {
-				throw new RuntimeException("astarÎÄ¼şÍ·Êı¾İ²»ºÏ·¨£¬ÎÄ¼ş:" + fileName);
+				throw new RuntimeException("astaræ–‡ä»¶å¤´æ•°æ®ä¸åˆæ³•ï¼Œæ–‡ä»¶:" + fileName);
 			}
 			
-			cellWidth = Integer.parseInt(headerInfo[0]);
-			cellHeight = Integer.parseInt(headerInfo[1]);
+			widthInCells = Integer.parseInt(headerInfo[0]);
+			heightInCells = Integer.parseInt(headerInfo[1]);
 			cellSize = Float.parseFloat(headerInfo[2]);
-			obstacleInfo = new int[cellHeight][cellWidth];
-			heightInfo = new float[cellHeight][cellWidth];
+			obstacleInfo = new int[heightInCells][widthInCells];
+			heightInfo = new float[heightInCells][widthInCells];
 			
-			for(int h = 0; h < cellHeight; ++h) {
+			for(int h = 0; h < heightInCells; ++h) {
 				String[] lineData = br.readLine().split(SPLIT_SUFFIX);
-				if(lineData.length < cellWidth * 2) {
-					throw new RuntimeException("astarÑ°Â·ÎÄ¼ş´íÎó£º¶ÁÈ¡ÎÄ¼ş´íÎó¡£ÎÄ¼ş:" + fileName + ",ĞĞ:" + (h+2));
+				if(lineData.length < widthInCells * 2) {
+					throw new RuntimeException("astarå¯»è·¯æ–‡ä»¶é”™è¯¯ï¼šè¯»å–æ–‡ä»¶é”™è¯¯ã€‚æ–‡ä»¶:" + fileName + ",è¡Œ:" + (h+2));
 				}
 				
-				for(int w = 0; w < cellWidth; ++w) {
+				for(int w = 0; w < widthInCells; ++w) {
 					obstacleInfo[h][w] = Integer.parseInt(lineData[w*2]);
 					heightInfo[h][w] = Float.parseFloat(lineData[w*2+1]);
 				}
 			}
 		} catch (IOException e) {
-			throw new RuntimeException("astarÑ°Â·ÎÄ¼ş´íÎó£º¶ÁÈ¡ÎÄ¼ş´íÎó¡£ÎÄ¼ş:" + fileName);
+			throw new RuntimeException("astarå¯»è·¯æ–‡ä»¶é”™è¯¯ï¼šè¯»å–æ–‡ä»¶é”™è¯¯ã€‚æ–‡ä»¶:" + fileName);
 		} finally {
 			try {
 				br.close();
@@ -54,12 +54,12 @@ private static final String SPLIT_SUFFIX = ",";
 		}
 	}
 
-	public int getCellWidth() {
-		return cellWidth;
+	public int getWidthInCells() {
+		return widthInCells;
 	}
 
-	public int getCellHeight() {
-		return cellHeight;
+	public int getHeightInCells() {
+		return heightInCells;
 	}
 
 	public float getCellSize() {

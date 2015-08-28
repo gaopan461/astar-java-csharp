@@ -19,7 +19,7 @@ import javax.swing.Timer;
 import pathFinding.AStarCellMgr;
 import pathFinding.AStarData;
 import pathFinding.AStarDataMgr;
-import pathFinding.AStarNormalMap;
+import pathFinding.AStarSingleTileMap;
 import pathFinding.core.AStar;
 import pathFinding.core.AStarMap;
 import pathFinding.core.PathFinder;
@@ -30,25 +30,26 @@ import pathFinding.utils.StopWatch;
 
 public class TestPathFinderGui extends JFrame {
 	private enum DrawType {
-		NONE,	// 不需要画
-		DRAWING,// 正在画
-		DRAWED,	// 已画完
+		NONE,
+		DRAWING,
+		DRAWED,
 	}
 	
 	private static int startX = 50;
 	private static int startY = 12;
 	private static int goalX = 158;
 	private static int goalY = 110;
-	private static int cellSize = 8;
+	private static int cellSize = 4;
+	
+	private JLabel statusBar = new JLabel();
 	
 	private static final String TILE_ID = "normal1";
-	
-	private AStarCellMgr cellMgr = new AStarCellMgr();
 	private static AStarData astarData = AStarDataMgr.getAstarData(TILE_ID);
 	
-	private AStarPanel panel = new AStarPanel(astarData.getObstacleInfo(), astarData.getCellWidth(), 
-			astarData.getCellHeight(), cellSize);
-	private JLabel statusBar = new JLabel();
+	private AStarCellMgr cellMgr = new AStarCellMgr();
+	private AStarMap map = new AStarSingleTileMap(TILE_ID, cellMgr);
+	private AStarPanel panel = new AStarPanel(astarData.getObstacleInfo(), 
+			astarData.getWidthInCells(), astarData.getHeightInCells(), cellSize);
 	
 	public TestPathFinderGui() {
 		add(panel, BorderLayout.CENTER);
@@ -58,7 +59,7 @@ public class TestPathFinderGui extends JFrame {
 	public static void main(String[] args) {
 		TestPathFinderGui frame = new TestPathFinderGui();
 		frame.setTitle("TestAStarGui");
-		frame.setSize(astarData.getCellWidth() * cellSize + 100, astarData.getCellHeight() * cellSize + 100);
+		frame.setSize(frame.panel.mapWidth * cellSize + 100, frame.panel.mapHeight * cellSize + 100);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
@@ -73,9 +74,6 @@ public class TestPathFinderGui extends JFrame {
 		
 		Logger log = new Logger();
 		StopWatch s = new StopWatch();
-		
-		log.addToLog("Map initializing...");
-		AStarMap map = new AStarNormalMap(TILE_ID, cellMgr);
 		
 		log.addToLog("Heuristic initializing...");
 		//AStarHeuristic heuristic = new ClosestHeuristic();

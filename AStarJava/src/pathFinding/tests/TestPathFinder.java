@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 import pathFinding.AStarCellMgr;
-import pathFinding.AStarNormalMap;
+import pathFinding.AStarSingleTileMap;
 import pathFinding.core.AStarMap;
 import pathFinding.core.PathFinder;
 import pathFinding.graphics.PrintMap;
@@ -24,7 +24,7 @@ public class TestPathFinder {
 		StopWatch s = new StopWatch();
 		
 		log.addToLog("Map initializing...");
-		AStarMap map = new AStarNormalMap(TILE_ID, new AStarCellMgr());
+		AStarMap map = new AStarSingleTileMap(TILE_ID, new AStarCellMgr());
 		
 		s.start();
 		

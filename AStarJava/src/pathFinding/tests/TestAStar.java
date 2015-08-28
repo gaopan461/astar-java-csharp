@@ -4,9 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 import pathFinding.AStarCellMgr;
-import pathFinding.AStarData;
-import pathFinding.AStarDataMgr;
-import pathFinding.AStarNormalMap;
+import pathFinding.AStarSingleTileMap;
 import pathFinding.core.AStar;
 import pathFinding.core.AStarMap;
 import pathFinding.graphics.PrintMap;
@@ -28,7 +26,7 @@ public class TestAStar {
 		StopWatch s = new StopWatch();
 		
 		log.addToLog("Map initializing...");
-		AStarMap map = new AStarNormalMap(TILE_ID, new AStarCellMgr());
+		AStarMap map = new AStarSingleTileMap(TILE_ID, new AStarCellMgr());
 		
 		log.addToLog("Heuristic initializing...");
 		//AStarHeuristic heuristic = new ClosestHeuristic();
