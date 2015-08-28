@@ -25,6 +25,9 @@ import javax.swing.JTextField;
 
 public class AStarMapToolbarPanel extends JPanel {
 	private static final int WHITE_PIXEL_VALUE = 255 * 3 - 10;
+	private static final float DEFAULT_CELL_SIZE = 0f;
+	private static final float DEFAULT_HEIGHT = 0f;
+	
 	private AStarMapEditor editorFrame;
 	
 	private JLabel jlbCellWidth = new JLabel("Width:");
@@ -176,12 +179,12 @@ public class AStarMapToolbarPanel extends JPanel {
         	int width = editorFrame.getEditorPanel().getCellWidth();
         	int height = editorFrame.getEditorPanel().getCellHeight();
         	
-        	bwriter.write(width + "," + height);
+        	bwriter.write(width + "," + height + "," + DEFAULT_CELL_SIZE);
         	bwriter.newLine();
         	
         	for(int h = 0; h < height; ++h) {
         		for(int w = 0; w < width; ++w) {
-        			bwriter.write(map[h][w] + ",");
+        			bwriter.write(map[h][w] + "," + DEFAULT_HEIGHT + ",");
         		}
         		bwriter.newLine();
         	}
@@ -205,12 +208,13 @@ public class AStarMapToolbarPanel extends JPanel {
             }
             
             String[] values = line.split(",");
-            if(values.length < 2) {
+            if(values.length < 3) {
             	throw new RuntimeException("file invalid");
             }
             
             int width = Integer.parseInt(values[0]);
             int height = Integer.parseInt(values[1]);
+            // ingore cell size
             if(width <= 0 || height <= 0) {
             	throw new RuntimeException("file invalid");
             }
@@ -223,12 +227,13 @@ public class AStarMapToolbarPanel extends JPanel {
             	}
             	
             	values = line.split(",");
-                if(values.length < width) {
+                if(values.length < width * 2) {
                 	throw new RuntimeException("file invalid");
                 }
                 
                 for(int w = 0; w < width; ++w) {
-                	int obstacle = Integer.parseInt(values[w]);
+                	int obstacle = Integer.parseInt(values[w*2]);
+                	// ingore height info
                 	map[h][w] = (obstacle == 0) ? 0 : 1;
                 }
             }

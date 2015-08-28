@@ -3,6 +3,7 @@ package pathFinding.tests;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import pathFinding.AStarCellMgr;
 import pathFinding.AStarNormalMap;
 import pathFinding.core.AStarMap;
 import pathFinding.core.PathFinder;
@@ -16,14 +17,14 @@ public class TestPathFinder {
 	private static int goalX = 158;
 	private static int goalY = 110;
 	
-	private static AStarMapData mapData = new AStarMapData();
+	private static final String TILE_ID = "normal1";
 	
 	public static void main(String[] args) {
 		Logger log = new Logger();
 		StopWatch s = new StopWatch();
 		
 		log.addToLog("Map initializing...");
-		AStarMap map = new AStarNormalMap(mapData.getMapWidth(), mapData.getMapHeight(), mapData.getObstacleMap());
+		AStarMap map = new AStarNormalMap(TILE_ID, new AStarCellMgr());
 		
 		s.start();
 		

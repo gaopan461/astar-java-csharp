@@ -10,7 +10,7 @@ public class AStarCell implements Comparable<AStarCell> {
 	private int x;
 	private int y;
 	
-	public AStarCell(AStarMap map, int x, int y) {
+	public AStarCell(int x, int y) {
 		this.x = x;
 		this.y = y;
 		this.distanceFromStart = Integer.MAX_VALUE;

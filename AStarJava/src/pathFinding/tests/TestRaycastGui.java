@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import pathFinding.AStarCellMgr;
+import pathFinding.AStarData;
+import pathFinding.AStarDataMgr;
 import pathFinding.AStarNormalMap;
 import pathFinding.core.AStarMap;
 import pathFinding.core.PathFinder;
@@ -22,10 +25,13 @@ public class TestRaycastGui extends JFrame {
 	private static int goalY = 110;
 	private static int cellSize = 8;
 	
-	private static AStarMapData mapData = new AStarMapData();
+	private static final String TILE_ID = "normal1";
 	
-	private AStarPanel panel = new AStarPanel(mapData.getObstacleMap(), mapData.getMapWidth(), 
-			mapData.getMapHeight(), cellSize);
+	private AStarCellMgr cellMgr = new AStarCellMgr();
+	private static AStarData astarData = AStarDataMgr.getAstarData(TILE_ID);
+	
+	private AStarPanel panel = new AStarPanel(astarData.getObstacleInfo(), astarData.getCellWidth(), 
+			astarData.getCellHeight(), cellSize);
 	
 	public TestRaycastGui() {
 		add(panel);
@@ -34,7 +40,7 @@ public class TestRaycastGui extends JFrame {
 	public static void main(String[] args) {
 		TestRaycastGui frame = new TestRaycastGui();
 		frame.setTitle("TestAStarGui");
-		frame.setSize(mapData.getMapWidth() * cellSize + 100, mapData.getMapHeight() * cellSize + 100);
+		frame.setSize(astarData.getCellWidth() * cellSize + 100, astarData.getCellHeight() * cellSize + 100);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
@@ -47,7 +53,7 @@ public class TestRaycastGui extends JFrame {
 		StopWatch s = new StopWatch();
 		
 		log.addToLog("Map initializing...");
-		AStarMap map = new AStarNormalMap(mapData.getMapWidth(), mapData.getMapHeight(), mapData.getObstacleMap());
+		AStarMap map = new AStarNormalMap(TILE_ID, cellMgr);
 		
 		PathFinder pathfinder = new PathFinder(map);
 		s.start();

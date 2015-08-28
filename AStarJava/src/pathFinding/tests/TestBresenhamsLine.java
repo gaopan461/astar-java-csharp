@@ -3,6 +3,7 @@ package pathFinding.tests;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import pathFinding.AStarCellMgr;
 import pathFinding.AStarNormalMap;
 import pathFinding.bresenhamsLine.Bresenham;
 import pathFinding.core.AStarMap;
@@ -15,6 +16,8 @@ public class TestBresenhamsLine {
 	private static int mapWidth = 50;
 	private static int mapHeight = 50;
 	private static int obstacleMap[][] = new int[mapHeight][mapWidth];
+	
+	private static final String TILE_ID = "normal2";
 	
 	static {
 		for(int h = 0; h < mapHeight; ++h) {
@@ -32,7 +35,7 @@ public class TestBresenhamsLine {
 		StopWatch s = new StopWatch();
 		
 		log.addToLog("Initializing "+mapWidth+"x"+mapHeight+" map...");
-		AStarMap map = new AStarNormalMap(mapWidth, mapHeight, obstacleMap);
+		AStarMap map = new AStarNormalMap(TILE_ID, new AStarCellMgr());
 		
 		log.addToLog("Generating Bresenham's Line from "+a.x+","+a.y+" to "+b.x+","+b.y+"...");
 		s.start();

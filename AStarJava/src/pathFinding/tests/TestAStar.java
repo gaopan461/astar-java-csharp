@@ -3,6 +3,9 @@ package pathFinding.tests;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import pathFinding.AStarCellMgr;
+import pathFinding.AStarData;
+import pathFinding.AStarDataMgr;
 import pathFinding.AStarNormalMap;
 import pathFinding.core.AStar;
 import pathFinding.core.AStarMap;
@@ -18,14 +21,14 @@ public class TestAStar {
 	private static int goalX = 110;
 	private static int goalY = 75;
 	
-	private static AStarMapData mapData = new AStarMapData();
+	private static final String TILE_ID = "normal1";
 	
 	public static void main(String[] args) {
 		Logger log = new Logger();
 		StopWatch s = new StopWatch();
 		
 		log.addToLog("Map initializing...");
-		AStarMap map = new AStarNormalMap(mapData.getMapWidth(), mapData.getMapHeight(), mapData.getObstacleMap());
+		AStarMap map = new AStarNormalMap(TILE_ID, new AStarCellMgr());
 		
 		log.addToLog("Heuristic initializing...");
 		//AStarHeuristic heuristic = new ClosestHeuristic();
