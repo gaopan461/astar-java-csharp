@@ -174,28 +174,46 @@ public class MapPanel extends JPanel {
 		
 		AStarHeuristic heuristic = new DiagonalHeuristic();
 		AStar aStar = new AStar(astarMap, heuristic);
+		PathFinder pathfinder = new PathFinder(astarMap);
 		
 		log.addToLog(new StringBuffer().append("calcShortestPath, start:(").append(start.x)
 				.append(",").append(start.y).append("), goal:(").append(goal.x).append(",")
 				.append(goal.y).append(")").toString());
 		
+		ArrayList<Point> optimizedPath;
+		ArrayList<Point> shortestPath;
+		
 		StopWatch s = new StopWatch();
 		s.start();
-		ArrayList<Point> shortestPath = aStar.calcShortestPath(start.x, start.y, goal.x, goal.y);
-		s.stop();
+		Point hitPoint = pathfinder.raycast(start, goal);
+		if(hitPoint.equals(goal)) {
+			optimizedPath = new ArrayList<Point>();
+			optimizedPath.add(start);
+			optimizedPath.add(goal);
+			shortestPath = new ArrayList<Point>(optimizedPath);
+		} else {
 		
-		log.addToLog("shortestPath length:" + (shortestPath == null ? 0 : shortestPath.size()));
+//			StopWatch s = new StopWatch();
+//			s.start();
+			shortestPath = aStar.calcShortestPath(start.x, start.y, goal.x, goal.y);
+//			s.stop();
+			
+	//		log.addToLog("shortestPath length:" + (shortestPath == null ? 0 : shortestPath.size()));
+			
+//			sb.append(", Time to calculate path:").append(s.getElapsedTime());
+			
+//			s.start();
+			optimizedPath = pathfinder.calcStraightPath(shortestPath);
+//			s.stop();
+			
+	//		log.addToLog("optimizedPath length:" + (optimizedPath == null ? 0 : optimizedPath.size()));
+			
+//			sb.append(", Time to calculate waypoints:").append(s.getElapsedTime());
+		}
+		
+		s.stop();
 		
 		sb.append(", Time to calculate path:").append(s.getElapsedTime());
-		
-		PathFinder pathfinder = new PathFinder(astarMap);
-		s.start();
-		ArrayList<Point> optimizedPath = pathfinder.calcStraightPath(shortestPath);
-		s.stop();
-		
-		log.addToLog("optimizedPath length:" + (optimizedPath == null ? 0 : optimizedPath.size()));
-		
-		sb.append(", Time to calculate waypoints:").append(s.getElapsedTime());
 		
 		frame.getStatusBar().setText(sb.toString());
 		
