@@ -28,56 +28,56 @@ public abstract class AStarMap {
 		ArrayList<AStarCell> neighborList = new ArrayList<AStarCell>();
 		if (cell.getY() > 0) {// down
 			AStarCell neighbor = getCell(cell.getX(), (cell.getY() - 1));
-			if(neighbor != null) {
+			if(!AStarCell.isObstacle(neighbor)) {
 				neighborList.add(neighbor);
 			}
 		}
 		
 		if (cell.getX() < (widthInCells - 1) && cell.getY() > 0) {// down right
 			AStarCell neighbor = getCell(cell.getX() + 1, cell.getY() - 1);
-			if(neighbor != null) {
+			if(!AStarCell.isObstacle(neighbor)) {
 				neighborList.add(neighbor);
 			}
 		}
 		
 		if (cell.getX() < (widthInCells - 1)) {// right
 			AStarCell neighbor = getCell(cell.getX() + 1, cell.getY());
-			if(neighbor != null) {
+			if(!AStarCell.isObstacle(neighbor)) {
 				neighborList.add(neighbor);
 			}
 		}
 		
 		if (cell.getX() < (widthInCells - 1) && cell.getY() < (heightInCells - 1)) { // up right
 			AStarCell neighbor = getCell(cell.getX() + 1, cell.getY() + 1);
-			if(neighbor != null) {
+			if(!AStarCell.isObstacle(neighbor)) {
 				neighborList.add(neighbor);
 			}
 		}
 		
 		if (cell.getY() < (heightInCells - 1)) {// up
 			AStarCell neighbor = getCell(cell.getX(), cell.getY() + 1);
-			if(neighbor != null) {
+			if(!AStarCell.isObstacle(neighbor)) {
 				neighborList.add(neighbor);
 			}
 		}
 		
 		if (cell.getX() > 0 && cell.getY() < (heightInCells - 1)) {// up left
 			AStarCell neighbor = getCell(cell.getX() - 1, cell.getY() + 1);
-			if(neighbor != null) {
+			if(!AStarCell.isObstacle(neighbor)) {
 				neighborList.add(neighbor);
 			}
 		}
 		
 		if (cell.getX() > 0) {// left
 			AStarCell neighbor = getCell(cell.getX() - 1, cell.getY());
-			if(neighbor != null) {
+			if(!AStarCell.isObstacle(neighbor)) {
 				neighborList.add(neighbor);
 			}
 		}
 		
 		if (cell.getX() > 0 && cell.getY() > 0) {// down left
 			AStarCell neighbor = getCell(cell.getX() - 1, cell.getY() - 1);
-			if(neighbor != null) {
+			if(!AStarCell.isObstacle(neighbor)) {
 				neighborList.add(neighbor);
 			}
 		}

@@ -25,12 +25,12 @@ public class AStar {
 		AStarCell goalCell = map.getCell(goalX, goalY);
 		
 		//Check if the start cell is also an obstacle (if it is, it is impossible to find a path)
-		if (startCell == null || startCell.isObstacle()) {
+		if (AStarCell.isObstacle(startCell)) {
 			return null;
 		}
 		
 		//Check if the goal cell is also an obstacle (if it is, it is impossible to find a path there)
-		if (goalCell == null || goalCell.isObstacle()) {
+		if (AStarCell.isObstacle(goalCell)) {
 			return null;
 		}
 
@@ -63,33 +63,28 @@ public class AStar {
 				if (closedList.contains(neighbor))
 					continue;
 
-				//also just continue if the neighbor is an obstacle
-				if (!neighbor.isObstacle()) {
+				// calculate how long the path is if we choose this neighbor as the next step in the path 
+				float neighborDistanceFromStart = (current.getDistanceFromStart() + AStarMap.getDistanceBetween(current, neighbor));
 
-					// calculate how long the path is if we choose this neighbor as the next step in the path 
-					float neighborDistanceFromStart = (current.getDistanceFromStart() + AStarMap.getDistanceBetween(current, neighbor));
-
-					//add neighbor to the open list if it is not there
-					if(!openList.contains(neighbor)) {
-						neighbor.reset();
-						openList.add(neighbor);
-						neighborIsBetter = true;
-						//if neighbor is closer to start it could also be better
-					} else if(neighborDistanceFromStart < current.getDistanceFromStart()) {
-						neighborIsBetter = true;
-					} else {
-						neighborIsBetter = false;
-					}
-					// set neighbors parameters if it is better
-					if (neighborIsBetter) {
-						neighbor.setPreviousCell(current);
-						neighbor.setDistanceFromStart(neighborDistanceFromStart);
-						neighbor.setHeuristicDistanceFromGoal(heuristic.getEstimatedDistanceToGoal(neighbor.getPoint(), goalCell.getPoint()));
-						
-						Collections.sort(openList);
-					}
+				//add neighbor to the open list if it is not there
+				if(!openList.contains(neighbor)) {
+					neighbor.reset();
+					openList.add(neighbor);
+					neighborIsBetter = true;
+					//if neighbor is closer to start it could also be better
+				} else if(neighborDistanceFromStart < current.getDistanceFromStart()) {
+					neighborIsBetter = true;
+				} else {
+					neighborIsBetter = false;
 				}
-
+				// set neighbors parameters if it is better
+				if (neighborIsBetter) {
+					neighbor.setPreviousCell(current);
+					neighbor.setDistanceFromStart(neighborDistanceFromStart);
+					neighbor.setHeuristicDistanceFromGoal(heuristic.getEstimatedDistanceToGoal(neighbor.getPoint(), goalCell.getPoint()));
+					
+					Collections.sort(openList);
+				}
 			}
 		}
 		return null;

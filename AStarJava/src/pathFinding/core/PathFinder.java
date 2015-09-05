@@ -3,7 +3,6 @@ package pathFinding.core;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import pathFinding.bresenhamsLine.Bresenham;
 import pathFinding.heuristics.AStarHeuristic;
 import pathFinding.heuristics.DiagonalHeuristic;
 import pathFinding.utils.Logger;
@@ -18,22 +17,67 @@ public class PathFinder {
 		this.map = map;
 	}
 	
+	/**
+	 * Bresenham line algorithm
+	 * @param start
+	 * @param goal
+	 * @return
+	 */
 	public Point raycast(Point start, Point goal) {
-		ArrayList<Point> pointsOnLine = Bresenham.getCellsOnLine(start, goal);
+		// exception: start is obstacle. Now just return start
+		if(AStarCell.isObstacle(map.getCell(start.x, start.y))) {
+			return start;
+		}
 		
-		Point hitPoint = (Point) start.clone();
-		for(Point p : pointsOnLine) {
-			AStarCell cell = map.getCell(p.x, p.y); 
-			if(cell == null || cell.isObstacle()) {
+		int dx = Math.abs(goal.x - start.x);
+		int dy = Math.abs(goal.y - start.y);
+		
+		int sx = start.x < goal.x ? 1 : -1; 
+		int sy = start.y < goal.y ? 1 : -1; 
+		
+		int err = dx-dy;
+		int e2;
+		int currentX = start.x;
+		int currentY = start.y;
+		
+		Point hitPoint = new Point(currentX, currentY);
+		while(true) {
+			AStarCell cell = map.getCell(currentX, currentY); 
+			if(AStarCell.isObstacle(cell)) {
 				break;
 			} else {
-				hitPoint = p;
+				hitPoint = new Point(currentX, currentY);
+			}
+			
+			if(currentX == goal.x && currentY == goal.y) {
+				break;
+			}
+			
+			e2 = 2*err;
+			if(e2 > -1 * dy) {
+				err = err - dy;
+				currentX = currentX + sx;
+			}
+			
+			if(e2 < dx) {
+				err = err + dx;
+				currentY = currentY + sy;
 			}
 		}
+		
 		return hitPoint;
 	}
 	
-	public ArrayList<Point> findStraightPath(Point start, Point goal) {		
+	public ArrayList<Point> findStraightPath(Point start, Point goal) {
+		// optimized, check can straight pass
+		Point hitPoint = raycast(start, goal);
+		if(hitPoint.equals(goal)) {
+			ArrayList<Point> waypoints = new ArrayList<Point>();
+			waypoints.add(start);
+			waypoints.add(goal);
+			return waypoints;
+		}
+		
 		log.addToLog("AStar Heuristic initializing...");
 		AStarHeuristic heuristic = new DiagonalHeuristic();
 		
@@ -45,9 +89,6 @@ public class PathFinder {
 		if(shortestPath == null || shortestPath.isEmpty()) {
 			return null;
 		}
-		
-		//log.addToLog("Printing map of shortest path...");
-		//new PrintMap(map, shortestPath);
 		
 		log.addToLog("Calculating optimized waypoints...");
 		s.start();
@@ -92,13 +133,11 @@ public class PathFinder {
 	}
 	
 	private boolean lineClear(Point a, Point b) {
-		ArrayList<Point> pointsOnLine = Bresenham.getCellsOnLine(a, b);
-		for(Point p : pointsOnLine) {
-			AStarCell cell = map.getCell(p.x, p.y);
-			if(cell == null || cell.isObstacle()) {
-				return false;
-			}
+		Point hitPoint = raycast(a, b);
+		if(hitPoint.equals(b)) {
+			return true;
+		} else {
+			return false;
 		}
-		return true;
 	}
 }

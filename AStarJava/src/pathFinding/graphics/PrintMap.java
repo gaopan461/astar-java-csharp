@@ -19,7 +19,7 @@ public class PrintMap {
 
 			for(int x = 0; x < map.getWidthInCells(); x++) {
 				cell = map.getCell(x, y);
-				if(cell == null || cell.isObstacle()) {
+				if(AStarCell.isObstacle(cell)) {
 					System.out.print("X");
 				} else if(isStart(shortestPath, cell.getPoint())) {
 					System.out.print("s");

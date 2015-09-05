@@ -67,36 +67,42 @@ public class TestPathFinderGui extends JFrame {
 		frame.findPath();
 	}
 	
+	private ArrayList<Point> findAStarPath() {
+		AStarHeuristic heuristic = new DiagonalHeuristic();
+		
+		AStar aStar = new AStar(map, heuristic);
+		
+		ArrayList<Point> shortestPath = aStar.calcShortestPath(startX, startY, goalX, goalY);
+		
+		return shortestPath;
+	}
+	
+	private ArrayList<Point> findOptimizedPath() {
+		PathFinder pathfinder = new PathFinder(map);
+		
+		ArrayList<Point> optimizedPath = pathfinder.findStraightPath(new Point(startX, startY), new Point(goalX, goalY));
+		
+		return optimizedPath;
+	}
+	
 	private void findPath() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("start:(").append(startX).append(",").append(startY).append(") ")
 		.append("goal:(").append(goalX).append(",").append(goalY).append(")");
 		
-		Logger log = new Logger();
 		StopWatch s = new StopWatch();
 		
-		log.addToLog("Heuristic initializing...");
-		//AStarHeuristic heuristic = new ClosestHeuristic();
-		AStarHeuristic heuristic = new DiagonalHeuristic();
-		
-		log.addToLog("AStar initializing...");
-		AStar aStar = new AStar(map, heuristic);
-		
-		log.addToLog("Calculating shortest path...");
 		s.start();
-		ArrayList<Point> shortestPath = aStar.calcShortestPath(startX, startY, goalX, goalY);
+		ArrayList<Point> shortestPath = findAStarPath();
 		s.stop();
 		
-		log.addToLog("Time to calculate path in milliseconds: " + s.getElapsedTime());
-		sb.append(", Time to calculate path:").append(s.getElapsedTime());
+		sb.append(", Time to calculate astar path:").append(s.getElapsedTime());
 		
-		log.addToLog("Calculating optimized waypoints...");
-		PathFinder pathfinder = new PathFinder(map);
 		s.start();
-		ArrayList<Point> optimizedPath = pathfinder.calcStraightPath(shortestPath);
+		ArrayList<Point> optimizedPath = findOptimizedPath();
 		s.stop();
-		log.addToLog("Time to calculate waypoints: " + s.getElapsedTime() + " ms");
-		sb.append(", Time to calculate waypoints:").append(s.getElapsedTime());
+
+		sb.append(", Time to calculate optimized path:").append(s.getElapsedTime());
 		
 		statusBar.setText(sb.toString());
 		panel.setPath(shortestPath, optimizedPath);

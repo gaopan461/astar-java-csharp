@@ -78,4 +78,8 @@ public class AStarCell implements Comparable<AStarCell> {
 		this.heuristicDistanceFromGoal = 0;
 		this.previousCell = null;
 	}
+	
+	public static boolean isObstacle(AStarCell cell) {
+		return (cell == null) || cell.isObstacle();
+	}
 }
