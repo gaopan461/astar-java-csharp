@@ -56,10 +56,13 @@ public class AStarCell implements Comparable<AStarCell> {
 		return false;
 	}
 
-	public boolean equals(AStarCell cell) {
+	@Override
+	public boolean equals(Object arg0) {
+		AStarCell cell = (AStarCell)arg0;
 		return (cell.x == x) && (cell.y == y);
 	}
 
+	@Override
 	public int compareTo(AStarCell otherCell) {
 		float thisTotalDistanceFromGoal = heuristicDistanceFromGoal + distanceFromStart;
 		float otherTotalDistanceFromGoal = otherCell.getHeuristicDistanceFromGoal() + otherCell.getDistanceFromStart();
