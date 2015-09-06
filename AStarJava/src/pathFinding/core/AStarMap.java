@@ -16,6 +16,8 @@ public abstract class AStarMap {
 
 	public abstract AStarCell getCell(int x, int y);
 	
+	public abstract float getHeight(int x, int y);
+	
 	public int getWidthInCells() {
 		return widthInCells;
 	}

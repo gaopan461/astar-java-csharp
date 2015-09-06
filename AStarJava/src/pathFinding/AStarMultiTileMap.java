@@ -83,5 +83,20 @@ public class AStarMultiTileMap extends AStarMap {
 			}
 		}
 	}
+
+	@Override
+	public float getHeight(int x, int y) {
+		int tileX = x / widthInCellsPerTile;
+		int tileY = y / heightInCellsPerTile;
+		int cellX = x % widthInCellsPerTile;
+		int cellY = y % heightInCellsPerTile;
+		
+		if(tileX >= widthInTiles || tileY >= heigthInTiles) {
+			throw new RuntimeException("pos invalid, x=" + x + ",y=" + y);
+		}
+		
+		String tileId = tiles[tileY][tileX];
+		return AStarDataMgr.getAstarData(tileId).getHeight(cellX, cellY);
+	}
 	
 }

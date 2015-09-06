@@ -28,4 +28,9 @@ public class AStarSingleTileMap extends AStarMap {
 		return cellMgr.getCell(tileId, x, y);
 	}
 
+	@Override
+	public float getHeight(int x, int y) {
+		return AStarDataMgr.getAstarData(tileId).getHeight(x, y);
+	}
+
 }
