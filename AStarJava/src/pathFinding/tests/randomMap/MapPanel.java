@@ -41,7 +41,7 @@ public class MapPanel extends JPanel {
 	private ArrayList<Point> shortestPathUndraw = new ArrayList<>();
 	private ArrayList<Point> optimizedPathUndraw = new ArrayList<>();
 	
-	private Timer shortestPathDrawTimer = new Timer(50, new ActionListener() {
+	private Timer shortestPathDrawTimer = new Timer(5, new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {

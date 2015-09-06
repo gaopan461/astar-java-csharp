@@ -124,7 +124,7 @@ public class TestPathFinderGui extends JFrame {
 		private int optimizedPathDrawIndex = 0;
 		private DrawType optimizedPathDrawType = DrawType.NONE;
 		
-		private Timer drawTimer = new Timer(50, new DrawTimerListener());
+		private Timer drawTimer = new Timer(5, new DrawTimerListener());
 		
 		public AStarPanel(int[][] map, int mapWidth, int mapHeight, int cellSize) {
 			super();
