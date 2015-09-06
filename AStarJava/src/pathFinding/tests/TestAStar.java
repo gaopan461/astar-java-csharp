@@ -40,7 +40,7 @@ public class TestAStar {
 		ArrayList<Point> shortestPath = aStar.calcShortestPath(startX, startY, goalX, goalY);
 		s.stop();
 		
-		log.addToLog("Time to calculate path in milliseconds: " + s.getElapsedTime());
+		log.addToLog("Time to calculate path in microseconds: " + s.getElapsedTimeUSecs());
 		
 		log.addToLog("Printing map of shortest path...");
 		new PrintMap(map, shortestPath);

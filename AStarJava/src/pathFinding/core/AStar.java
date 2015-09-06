@@ -81,7 +81,8 @@ public class AStar {
 				if (neighborIsBetter) {
 					neighbor.setPreviousCell(current);
 					neighbor.setDistanceFromStart(neighborDistanceFromStart);
-					neighbor.setHeuristicDistanceFromGoal(heuristic.getEstimatedDistanceToGoal(neighbor.getPoint(), goalCell.getPoint()));
+					neighbor.setHeuristicDistanceFromGoal(heuristic.getEstimatedDistanceToGoal(
+							neighbor.getX(), neighbor.getY(), goalCell.getX(), goalCell.getY()));
 					
 					Collections.sort(openList);
 				}

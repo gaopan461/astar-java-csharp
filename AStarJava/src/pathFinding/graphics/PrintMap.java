@@ -25,7 +25,7 @@ public class PrintMap {
 					System.out.print("s");
 				} else if(isGoal(shortestPath, cell.getPoint())) {
 					System.out.print("g");
-				} else if (shortestPath.contains(new Point(cell.getX(), cell.getY()))) {
+				} else if (shortestPath.contains(cell.getPoint())) {
 					System.out.print("?");
 				} else {
 					System.out.print(" ");

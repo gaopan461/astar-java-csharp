@@ -1,7 +1,5 @@
 package pathFinding.heuristics;
 
-import java.awt.Point;
-
 /**
  * Calculate the diagonal distance to goal when 
  * a straight step costs 1 and diagonal step costs sqrt(2).
@@ -9,10 +7,10 @@ import java.awt.Point;
 public class DiagonalHeuristic implements AStarHeuristic {
 	private static final float SQRT2 = (float)Math.sqrt(2);
 
-	public float getEstimatedDistanceToGoal(Point start, Point goal) {		
+	public float getEstimatedDistanceToGoal(int startX, int startY, int goalX, int goalY) {		
 		
-		float h_diagonal = (float) Math.min(Math.abs(start.x - goal.x), Math.abs(start.y - goal.y));
-		float h_straight = (float) (Math.abs(start.x - goal.x) + Math.abs(start.y - goal.y));
+		float h_diagonal = (float) Math.min(Math.abs(startX - goalX), Math.abs(startY - goalY));
+		float h_straight = (float) (Math.abs(startX - goalX) + Math.abs(startY - goalY));
 		float h_result = (float) (SQRT2 * h_diagonal + (h_straight - 2 * h_diagonal));
 		
 		/**

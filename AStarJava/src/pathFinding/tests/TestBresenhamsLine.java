@@ -41,7 +41,7 @@ public class TestBresenhamsLine {
 		s.start();
 		ArrayList<Point> line = Bresenham.getCellsOnLine(a, b);
 		s.stop();
-		log.addToLog("Generation took " + s.getElapsedTime() + " ms");
+		log.addToLog("Generation took " + s.getElapsedTimeUSecs() + " us");
 		
 		String str = "";
 		for (Point point : line) {

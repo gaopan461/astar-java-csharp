@@ -96,13 +96,13 @@ public class TestPathFinderGui extends JFrame {
 		ArrayList<Point> shortestPath = findAStarPath();
 		s.stop();
 		
-		sb.append(", Time to calculate astar path:").append(s.getElapsedTime());
+		sb.append(", Time to calculate astar path:").append(s.getElapsedTimeUSecs());
 		
 		s.start();
 		ArrayList<Point> optimizedPath = findOptimizedPath();
 		s.stop();
 
-		sb.append(", Time to calculate optimized path:").append(s.getElapsedTime());
+		sb.append(", Time to calculate optimized path:").append(s.getElapsedTimeUSecs());
 		
 		statusBar.setText(sb.toString());
 		panel.setPath(shortestPath, optimizedPath);

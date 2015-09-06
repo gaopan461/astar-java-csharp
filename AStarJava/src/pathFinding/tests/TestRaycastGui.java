@@ -61,7 +61,7 @@ public class TestRaycastGui extends JFrame {
 		Point goal = new Point(goalX, goalY);
 		Point hitPoint = pathfinder.raycast(start, goal);
 		s.stop();
-		log.addToLog("Time to raycast: " + s.getElapsedTime() + " ms");
+		log.addToLog("Time to raycast: " + s.getElapsedTimeUSecs() + " us");
 		
 		ArrayList<Point> path = new ArrayList<Point>();
 		path.add(start);

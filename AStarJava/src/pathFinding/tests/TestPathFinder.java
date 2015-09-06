@@ -34,7 +34,7 @@ public class TestPathFinder {
 		ArrayList<Point> optimizedWaypoints = pathfinder.findStraightPath(start, goal);
 		
 		s.stop();
-		log.addToLog("Total pathfinding took: " + s.getElapsedTime() + " ms");
+		log.addToLog("Total pathfinding took: " + s.getElapsedTimeUSecs() + " us");
 		
 		log.addToLog("Printing map of optimized path...");
 		new PrintMap(map, optimizedWaypoints);

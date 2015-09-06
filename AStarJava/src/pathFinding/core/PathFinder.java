@@ -46,7 +46,8 @@ public class PathFinder {
 			if(AStarCell.isObstacle(cell)) {
 				break;
 			} else {
-				hitPoint = new Point(currentX, currentY);
+				hitPoint.x = currentX;
+				hitPoint.y = currentY;
 			}
 			
 			if(currentX == goal.x && currentY == goal.y) {
@@ -94,7 +95,7 @@ public class PathFinder {
 		s.start();
 		ArrayList<Point> waypoints = calcStraightPath(shortestPath);
 		s.stop();
-		log.addToLog("Time to calculate waypoints: " + s.getElapsedTime() + " ms");
+		log.addToLog("Time to calculate waypoints: " + s.getElapsedTimeUSecs() + " us");
 		
 		return waypoints;
 	}
