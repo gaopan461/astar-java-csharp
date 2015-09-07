@@ -23,6 +23,7 @@ namespace AStar.astar
 		    AStarData astarData = AStarDataMgr.getAstarData(tileId);
 		    this.widthInCells = astarData.getWidthInCells();
 		    this.heightInCells = astarData.getHeightInCells();
+            this.cellSize = astarData.getCellSize();
 		
 		    this.tileId = tileId;
 		    this.cellMgr = cellMgr;

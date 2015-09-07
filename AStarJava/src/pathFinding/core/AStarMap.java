@@ -13,6 +13,8 @@ public abstract class AStarMap {
 	
 	protected int widthInCells;
 	protected int heightInCells;
+	
+	protected float cellSize;	// 每个单元格的大小，单位米
 
 	public abstract AStarCell getCell(int x, int y);
 	
@@ -24,6 +26,10 @@ public abstract class AStarMap {
 
 	public int getHeightInCells() {
 		return heightInCells;
+	}
+	
+	public float getCellSize() {
+		return cellSize;
 	}
 
 	public ArrayList<AStarCell> getNeighborList(AStarCell cell) {

@@ -19,6 +19,8 @@ namespace AStar
         protected int widthInCells;
         protected int heightInCells;
 
+        protected float cellSize;	// 每个单元格的大小，单位米
+
         public abstract AStarCell getCell(int x, int y);
 
         public abstract float getHeight(int x, int y);
@@ -31,6 +33,11 @@ namespace AStar
         public int getHeightInCells()
         {
             return heightInCells;
+        }
+
+        public float getCellSize()
+        {
+            return cellSize;
         }
 
         public List<AStarCell> getNeighborList(AStarCell cell)

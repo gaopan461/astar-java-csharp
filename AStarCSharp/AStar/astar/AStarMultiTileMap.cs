@@ -33,6 +33,7 @@ namespace AStar.astar
 		    AStarData firstData = AStarDataMgr.getAstarData(tiles[0][0]);
 		    this.widthInCellsPerTile = firstData.getWidthInCells();
 		    this.heightInCellsPerTile = firstData.getHeightInCells();
+            this.cellSize = firstData.getCellSize();
 		
 		    this.widthInCells = widthInTiles * widthInCellsPerTile;
 		    this.heightInCells = heigthInTiles * heightInCellsPerTile;
