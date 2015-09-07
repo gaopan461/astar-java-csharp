@@ -6,7 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class AStarData {
-private static final String SPLIT_SUFFIX = ",";
+	private static final String SPLIT_SUFFIX = ",";
 	
 	private int widthInCells;
 	private int heightInCells;

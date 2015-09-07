@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AStarDataMgr {
-	private static final String ASTAR_DIR = "astar/";
+	private static final String ASTAR_DIR = AStarDataMgr.class.getResource("/").getPath() + "../../Resource/astar/";
 	private static final String INFO_SUFFIX = ".txt";
 	
 	private static Map<String, AStarData> astarDatas = new HashMap<>();
