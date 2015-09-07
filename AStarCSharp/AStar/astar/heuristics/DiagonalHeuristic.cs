@@ -13,10 +13,10 @@ namespace AStar
      */
     class DiagonalHeuristic : AStarHeuristic
     {
-        public float getEstimatedDistanceToGoal(Point start, Point goal)
+        public float getEstimatedDistanceToGoal(int startX, int startY, int goalX, int goalY)
         {
-            float h_diagonal = (float)Math.Min(Math.Abs(start.x - goal.x), Math.Abs(start.y - goal.y));
-            float h_straight = (float)(Math.Abs(start.x - goal.x) + Math.Abs(start.y - goal.y));
+            float h_diagonal = (float)Math.Min(Math.Abs(startX - goalX), Math.Abs(startY - goalY));
+            float h_straight = (float)(Math.Abs(startX - goalX) + Math.Abs(startY - goalY));
             float h_result = (float)(Math.Sqrt(2) * h_diagonal + (h_straight - 2 * h_diagonal));
 
             /**

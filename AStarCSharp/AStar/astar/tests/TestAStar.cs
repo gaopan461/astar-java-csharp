@@ -15,7 +15,7 @@ namespace AStar.astar.tests
         private static int goalX = 110;
         private static int goalY = 75;
 
-        private static AStarMapData mapData = new AStarMapData();
+        private const String TILE_ID = "normal1";
 
         public static void run(String[] args)
         {
@@ -23,7 +23,7 @@ namespace AStar.astar.tests
             Stopwatch s = new Stopwatch();
 
             log.addToLog("Map initializing...");
-            AStarMap map = new AStarMap(mapData.getMapWidth(), mapData.getMapHeight(), mapData.getObstacleMap());
+            AStarMap map = new AStarSingleTileMap(TILE_ID, new AStarCellMgr());
 
             log.addToLog("Heuristic initializing...");
             //AStarHeuristic heuristic = new ClosestHeuristic();
@@ -37,7 +37,7 @@ namespace AStar.astar.tests
             List<Point> shortestPath = aStar.calcShortestPath(startX, startY, goalX, goalY);
             s.Stop();
 
-            log.addToLog("Time to calculate path in milliseconds: " + s.ElapsedMilliseconds);
+            log.addToLog("Time to calculate path in ms: " + s.ElapsedMilliseconds);
 
             log.addToLog("Printing map of shortest path...");
             new PrintMap(map, shortestPath);

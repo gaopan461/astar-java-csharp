@@ -10,97 +10,17 @@ namespace AStar
     class AStarCell : IComparable<AStarCell>, IEquatable<AStarCell>
     {
         /* Cells that this is connected to */
-        private AStarMap map;
         private float distanceFromStart;
         private float heuristicDistanceFromGoal;
         private AStarCell previousCell;
         private int x;
         private int y;
 
-        public AStarCell(AStarMap map, int x, int y)
+        public AStarCell(int x, int y)
         {
-            this.map = map;
             this.x = x;
             this.y = y;
             this.distanceFromStart = Int32.MaxValue;
-        }
-
-        public List<AStarCell> getNeighborList()
-        {
-            List<AStarCell> neighborList = new List<AStarCell>();
-            if (y > 0)
-            {// down
-                AStarCell cell = map.getCell(x, (y - 1));
-                if(cell != null)
-                {
-                    neighborList.Add(cell);
-                }
-            }
-
-            if (y > 0 && x < (map.getMapWith() - 1))
-            {// down right
-                AStarCell cell = map.getCell(x + 1, y - 1);
-                if(cell != null)
-                {
-                    neighborList.Add(cell);
-                }
-            }
-
-            if (x < (map.getMapWith() - 1))
-            {// right
-                AStarCell cell = map.getCell(x + 1, y);
-                if(cell != null)
-                {
-                    neighborList.Add(cell);
-                }
-            }
-
-            if (x < (map.getMapWith() - 1) && y < (map.getMapHeight() - 1))
-            { // up right
-                AStarCell cell = map.getCell(x + 1, y + 1);
-                if(cell != null)
-                {
-                    neighborList.Add(cell);
-                }
-            }
-
-            if (y < (map.getMapHeight() - 1))
-            {// up
-                AStarCell cell = map.getCell(x, y + 1);
-                if(cell != null)
-                {
-                    neighborList.Add(cell);
-                }
-            }
-
-            if (x > 0 && y < (map.getMapHeight() - 1))
-            {// up left
-                AStarCell cell = map.getCell(x - 1, y + 1);
-                if(cell != null)
-                {
-                    neighborList.Add(cell);
-                }
-            }
-
-            if (x > 0)
-            {// left
-                AStarCell cell = map.getCell(x - 1, y);
-                if(cell != null)
-                {
-                    neighborList.Add(cell);
-                }
-            }
-
-            if (x > 0 && y > 0)
-            {// down left
-                AStarCell cell = map.getCell(x - 1, y - 1);
-                if(cell != null)
-                {
-                    neighborList.Add(cell);
-                }
-            }
-
-            return neighborList;
         }
 
         public float getDistanceFromStart()
@@ -153,6 +73,11 @@ namespace AStar
             return false;
         }
 
+        public bool Equals(AStarCell other)
+        {
+            return (x == other.x) && (y == other.y);
+        }
+
         public int CompareTo(AStarCell otherCell)
         {
             float thisTotalDistanceFromGoal = heuristicDistanceFromGoal + distanceFromStart;
@@ -172,16 +97,16 @@ namespace AStar
             }
         }
 
-        public bool Equals(AStarCell other)
-        {
-            return (x == other.x) && (y == other.y);
-        }
-
         public void reset()
         {
             this.distanceFromStart = Int32.MaxValue;
             this.heuristicDistanceFromGoal = 0;
             this.previousCell = null;
+        }
+
+        public static bool isObstacle(AStarCell cell)
+        {
+            return (cell == null) || cell.isObstacle();
         }
     }
 }

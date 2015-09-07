@@ -15,31 +15,31 @@ namespace AStar.astar.bresenhamsLine
     {
         /**
 	 * Returns the list of array elements that comprise the line. 
-	 * @param cell1 the starting point
-	 * @param cell2 the finishing point
+	 * @param start the starting point
+	 * @param goal the finishing point
 	 * @return the line as a list of array elements
 	 */
-        public static List<Point> getCellsOnLine(Point cell1, Point cell2)
+        public static List<Point> getCellsOnLine(Point start, Point goal)
         {
 
             List<Point> line = new List<Point>();
 
-            int dx = Math.Abs(cell2.x - cell1.x);
-            int dy = Math.Abs(cell2.y - cell1.y);
+            int dx = Math.Abs(goal.x - start.x);
+            int dy = Math.Abs(goal.y - start.y);
 
-            int sx = cell1.x < cell2.x ? 1 : -1;
-            int sy = cell1.y < cell2.y ? 1 : -1;
+            int sx = start.x < goal.x ? 1 : -1;
+            int sy = start.y < goal.y ? 1 : -1;
 
             int err = dx - dy;
             int e2;
-            int currentX = cell1.x;
-            int currentY = cell1.y;
+            int currentX = start.x;
+            int currentY = start.y;
 
             while (true)
             {
                 line.Add(new Point(currentX, currentY));
 
-                if (currentX == cell2.x && currentY == cell2.y)
+                if (currentX == goal.x && currentY == goal.y)
                 {
                     break;
                 }

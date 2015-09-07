@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AStar.astar;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +11,10 @@ namespace AStar
     {
         static void Main(string[] args)
         {
+            AStarDataMgr.init();
             //astar.tests.TestBresenhamsLine.run(args);
-            //astar.tests.TestAStar.run(args);
-            astar.tests.TestPathFinder.run(args);
+            astar.tests.TestAStar.run(args);
+            //astar.tests.TestPathFinder.run(args);
         }
     }
 }

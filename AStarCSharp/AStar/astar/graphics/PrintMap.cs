@@ -12,11 +12,11 @@ namespace AStar.astar.graphics
         {
             StringBuilder sb = new StringBuilder();
 		    AStarCell cell;
-		    for(int y = 0; y < map.getMapHeight(); y++) 
+            for (int y = 0; y < map.getHeightInCells(); y++) 
             {
 			    if(y == 0) 
                 {
-				    for (int i = 0; i <= map.getMapHeight(); i++)
+                    for (int i = 0; i <= map.getHeightInCells(); i++)
                     {
                         sb.Append("-");
                     }
@@ -24,11 +24,11 @@ namespace AStar.astar.graphics
 			    }
 			    sb.Append("|");
 
-			    for(int x = 0; x < map.getMapWith(); x++) 
+                for (int x = 0; x < map.getWidthInCells(); x++) 
                 {
 				    cell = map.getCell(x, y);
-				
-				    if(cell == null || cell.isObstacle()) 
+
+                    if (AStarCell.isObstacle(cell)) 
                     {
 					    sb.Append("X");
 				    } 
@@ -48,7 +48,7 @@ namespace AStar.astar.graphics
                     {
 					    sb.Append(" ");
 				    }
-				    if(y==map.getMapHeight())
+                    if (y == map.getHeightInCells())
                     {
                         sb.Append("_");
                     }
@@ -57,7 +57,7 @@ namespace AStar.astar.graphics
 			    sb.Append("|");
 			    sb.AppendLine();
 		    }
-		    for (int i = 0; i <= map.getMapHeight(); i++)
+            for (int i = 0; i <= map.getHeightInCells(); i++)
             {
                 sb.Append("-");
             }

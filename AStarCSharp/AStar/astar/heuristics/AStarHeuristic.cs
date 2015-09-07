@@ -17,12 +17,12 @@ namespace AStar
 	     * The lower the cost, the more likely a Cell will be searched next.
 	     * 
 	     * @param map The map on which we try to find the path
-	     * @param x The x coordinate of the tile being evaluated
-	     * @param y The y coordinate of the tile being evaluated
-	     * @param tx The x coordinate of the target location
-	     * @param ty The y coordinate of the target location
+	     * @param startX The x coordinate of the tile being evaluated
+	     * @param startY The y coordinate of the tile being evaluated
+	     * @param goalX The x coordinate of the target location
+	     * @param goalY The y coordinate of the target location
 	     * @return The cost associated with the given tile
 	     */
-        float getEstimatedDistanceToGoal(Point start, Point goal);
+        float getEstimatedDistanceToGoal(int startX, int startY, int goalX, int goalY);
     }
 }

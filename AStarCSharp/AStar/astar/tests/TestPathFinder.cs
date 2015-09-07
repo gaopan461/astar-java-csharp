@@ -15,7 +15,7 @@ namespace AStar.astar.tests
         private static int goalX = 158;
         private static int goalY = 110;
 
-        private static AStarMapData mapData = new AStarMapData();
+        private const String TILE_ID = "normal1";
 
         public static void run(String[] args)
         {
@@ -23,7 +23,7 @@ namespace AStar.astar.tests
             Stopwatch s = new Stopwatch();
 
             log.addToLog("Map initializing...");
-            AStarMap map = new AStarMap(mapData.getMapWidth(), mapData.getMapHeight(), mapData.getObstacleMap());
+            AStarMap map = new AStarSingleTileMap(TILE_ID, new AStarCellMgr());
 
             s.Start();
 

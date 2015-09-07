@@ -29,16 +29,17 @@ namespace AStar
             AStarCell startCell = map.getCell(startX, startY);
             AStarCell goalCell = map.getCell(goalX, goalY);
 
-            if (startCell == null || startCell.isObstacle())
+            //Check if the start cell is also an obstacle (if it is, it is impossible to find a path)
+            if (AStarCell.isObstacle(startCell))
             {
                 return null;
             }
 
-		    //Check if the goal cell is also an obstacle (if it is, it is impossible to find a path there)
-		    if (goalCell == null || goalCell.isObstacle()) 
+            //Check if the goal cell is also an obstacle (if it is, it is impossible to find a path there)
+            if (AStarCell.isObstacle(goalCell))
             {
-			    return null;
-		    }
+                return null;
+            }
 
             startCell.reset();
 		    startCell.setDistanceFromStart(0);
@@ -63,7 +64,7 @@ namespace AStar
 			    closedList.Add(current);
 
 			    //go through all the current Cells neighbors and calculate if one should be our next step
-			    foreach(AStarCell neighbor in current.getNeighborList()) 
+                foreach (AStarCell neighbor in map.getNeighborList(current)) 
                 {
 				    bool neighborIsBetter;
 
@@ -71,41 +72,38 @@ namespace AStar
 				    if (closedList.Contains(neighbor))
 					    continue;
 
-				    //also just continue if the neighbor is an obstacle
-				    if (!neighbor.isObstacle()) 
+					// calculate how long the path is if we choose this neighbor as the next step in the path 
+                    float neighborDistanceFromStart = (current.getDistanceFromStart() + AStarMap.getDistanceBetween(current, neighbor));
+
+					//add neighbor to the open list if it is not there
+					if(!openList.Contains(neighbor)) 
                     {
-					    // calculate how long the path is if we choose this neighbor as the next step in the path 
-					    float neighborDistanceFromStart = (current.getDistanceFromStart() + map.getDistanceBetween(current, neighbor));
+                        neighbor.reset();
+						openList.Add(neighbor);
+						neighborIsBetter = true;
+						//if neighbor is closer to start it could also be better
+					} 
+                    else if(neighborDistanceFromStart < current.getDistanceFromStart()) 
+                    {
+						neighborIsBetter = true;
+					} 
+                    else 
+                    {
+						neighborIsBetter = false;
+					}
+					// set neighbors parameters if it is better
+					if (neighborIsBetter) 
+                    {
+						neighbor.setPreviousCell(current);
+						neighbor.setDistanceFromStart(neighborDistanceFromStart);
+                        neighbor.setHeuristicDistanceFromGoal(heuristic.getEstimatedDistanceToGoal(
+                            neighbor.getX(), neighbor.getY(), goalCell.getX(), goalCell.getY()));
 
-					    //add neighbor to the open list if it is not there
-					    if(!openList.Contains(neighbor)) 
-                        {
-                            neighbor.reset();
-						    openList.Add(neighbor);
-						    neighborIsBetter = true;
-						    //if neighbor is closer to start it could also be better
-					    } 
-                        else if(neighborDistanceFromStart < current.getDistanceFromStart()) 
-                        {
-						    neighborIsBetter = true;
-					    } 
-                        else 
-                        {
-						    neighborIsBetter = false;
-					    }
-					    // set neighbors parameters if it is better
-					    if (neighborIsBetter) 
-                        {
-						    neighbor.setPreviousCell(current);
-						    neighbor.setDistanceFromStart(neighborDistanceFromStart);
-						    neighbor.setHeuristicDistanceFromGoal(heuristic.getEstimatedDistanceToGoal(neighbor.getPoint(), goalCell.getPoint()));
-
-                            // csharp List.Sort use QuickSort, which is unstable, 
-                            // but in java implement ArrayList.sort use MergeSort, which is stable,
-                            // so here use MergeSort to generate the same result as in java implement
-                            MergeSortClass.MergeSort(openList);
-					    }
-				    }
+                        // csharp List.Sort use QuickSort, which is unstable, 
+                        // but in java implement ArrayList.sort use MergeSort, which is stable,
+                        // so here use MergeSort to generate the same result as in java implement
+                        MergeSortClass.MergeSort(openList);
+					}
 			    }
 		    }
 		    return null;

@@ -12,10 +12,10 @@ namespace AStar
      */
     class ClosestHeuristic : AStarHeuristic
     {
-        public float getEstimatedDistanceToGoal(Point start, Point goal)
+        public float getEstimatedDistanceToGoal(int startX, int startY, int goalX, int goalY)
         {
-            float dx = goal.x - start.x;
-            float dy = goal.y - start.y;
+            float dx = goalX - startX;
+            float dy = goalY - startY;
 
             float result = (float)(Math.Sqrt((dx * dx) + (dy * dy)));
 
