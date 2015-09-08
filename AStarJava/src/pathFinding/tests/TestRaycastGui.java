@@ -13,6 +13,7 @@ import pathFinding.AStarCellMgr;
 import pathFinding.AStarData;
 import pathFinding.AStarDataMgr;
 import pathFinding.AStarSingleTileMap;
+import pathFinding.core.AStarCell;
 import pathFinding.core.AStarMap;
 import pathFinding.core.PathFinder;
 import pathFinding.utils.Logger;
@@ -29,6 +30,8 @@ public class TestRaycastGui extends JFrame {
 	
 	private AStarCellMgr cellMgr = new AStarCellMgr();
 	private static AStarData astarData = AStarDataMgr.getAstarData(TILE_ID);
+	
+	private AStarMap map = new AStarSingleTileMap(TILE_ID, cellMgr);
 	
 	private AStarPanel panel = new AStarPanel(astarData.getObstacleInfo(), astarData.getWidthInCells(), 
 			astarData.getHeightInCells(), cellSize);
@@ -52,9 +55,6 @@ public class TestRaycastGui extends JFrame {
 		Logger log = new Logger();
 		StopWatch s = new StopWatch();
 		
-		log.addToLog("Map initializing...");
-		AStarMap map = new AStarSingleTileMap(TILE_ID, cellMgr);
-		
 		PathFinder pathfinder = new PathFinder(map);
 		s.start();
 		Point start = new Point(startX, startY);
@@ -75,14 +75,12 @@ public class TestRaycastGui extends JFrame {
 	class AStarPanel extends JPanel {
 		private int mapWidth;
 		private int mapHeight;
-		private int[][] map;
 		private int cellSize;
 		
 		private ArrayList<Point> optimizedPath = new ArrayList<Point>();
 		
 		public AStarPanel(int[][] map, int mapWidth, int mapHeight, int cellSize) {
 			super();
-			this.map = map;
 			this.mapWidth = mapWidth;
 			this.mapHeight = mapHeight;
 			this.cellSize = cellSize;
@@ -96,8 +94,8 @@ public class TestRaycastGui extends JFrame {
 				int y = (mapHeight - h) * cellSize;
 				for(int w = 0; w < mapWidth; ++w) {
 					int x = w * cellSize;
-					boolean isObstacle = (map[h][w] == 1 ? true : false);
-					if(isObstacle) {
+					AStarCell cell = TestRaycastGui.this.map.getCell(w, h);
+					if(AStarCell.isObstacle(cell)) {
 						g.setColor(Color.BLACK);
 						g.fillRect(x, y, cellSize, cellSize);
 					} else {

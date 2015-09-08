@@ -38,9 +38,9 @@ public class AStarMapEditorPanel extends JPanel {
 				}
 				
 				if(AStarMapEditorPanel.this.operator == AStarMapEditor.OperatorType.fill) {
-					map[cellY][cellX] = 1;
+					map[cellY][cellX] = AStarMapEditor.OBSTACLE_VALUE;
 				} else {
-					map[cellY][cellX] = 0;
+					map[cellY][cellX] = AStarMapEditor.PASS_VALUE;
 				}
 				
 				repaint();
@@ -69,7 +69,7 @@ public class AStarMapEditorPanel extends JPanel {
 			int y = h * cellSize;
 			for(int w = 0; w < cellWidth; ++w) {
 				int x = w * cellSize;
-				boolean isObstacle = (map[h][w] == 1 ? true : false);
+				boolean isObstacle = (map[h][w] == AStarMapEditor.OBSTACLE_VALUE ? true : false);
 				if(isObstacle) {
 					g.setColor(Color.BLACK);
 					g.fillRect(x, y, cellSize, cellSize);
@@ -129,7 +129,7 @@ public class AStarMapEditorPanel extends JPanel {
 				if(h < this.cellHeight && w < this.cellWidth) {
 					newMap[h][w] = map[h][w];
 				} else {
-					newMap[h][w] = 1;
+					newMap[h][w] = AStarMapEditor.OBSTACLE_VALUE;
 				}
 			}
 		}
@@ -147,7 +147,7 @@ public class AStarMapEditorPanel extends JPanel {
 	public void fillAll() {
 		for(int h = 0; h < cellHeight; ++h) {
 			for(int w = 0; w < cellWidth; ++w) {
-				map[h][w] = 1;
+				map[h][w] = AStarMapEditor.OBSTACLE_VALUE;
 			}
 		}
 		
@@ -157,7 +157,7 @@ public class AStarMapEditorPanel extends JPanel {
 	public void clearAll() {
 		for(int h = 0; h < cellHeight; ++h) {
 			for(int w = 0; w < cellWidth; ++w) {
-				map[h][w] = 0;
+				map[h][w] = AStarMapEditor.PASS_VALUE;
 			}
 		}
 		

@@ -302,9 +302,9 @@ public class AStarMapToolbarPanel extends JPanel {
 		int pixelNum = (endy - starty) * (endx - startx);
 		int pixelAvgValue = pixelSumValue / pixelNum;
 		if(pixelAvgValue < WHITE_PIXEL_VALUE) {
-			return 1;
+			return AStarMapEditor.OBSTACLE_VALUE;
 		} else {
-			return 0;
+			return AStarMapEditor.PASS_VALUE;
 		}
 	}
 

@@ -232,7 +232,7 @@ public class TestRandomMap extends JFrame {
 			for(int x = 0; x < width; ++x) {
 				AStarCell cell = map.getCell(x, y);
 				if(cell == null) {
-					obstacleMap[y][x] = 1;
+					obstacleMap[y][x] = AStarData.OBSTACLE_VALUE;
 				} else {
 					obstacleMap[y][x] = 0;
 				}

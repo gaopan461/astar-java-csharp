@@ -6,7 +6,7 @@ import java.io.File;
 import javax.swing.ImageIcon;
 
 public class TileData {
-	public static final String IMAGE_PATH = "images" + File.separatorChar;
+	public static final String IMAGE_PATH = TileData.class.getResource("/").getPath() + "../../Resource/images" + File.separatorChar;
 	
 	public static final String IMAGE_SUFFIX = ".gif";
 	

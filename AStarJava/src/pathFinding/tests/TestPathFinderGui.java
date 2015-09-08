@@ -21,11 +21,11 @@ import pathFinding.AStarData;
 import pathFinding.AStarDataMgr;
 import pathFinding.AStarSingleTileMap;
 import pathFinding.core.AStar;
+import pathFinding.core.AStarCell;
 import pathFinding.core.AStarMap;
 import pathFinding.core.PathFinder;
 import pathFinding.heuristics.AStarHeuristic;
 import pathFinding.heuristics.DiagonalHeuristic;
-import pathFinding.utils.Logger;
 import pathFinding.utils.StopWatch;
 
 public class TestPathFinderGui extends JFrame {
@@ -113,7 +113,6 @@ public class TestPathFinderGui extends JFrame {
 	class AStarPanel extends JPanel {
 		private int mapWidth;
 		private int mapHeight;
-		private int[][] map;
 		private int cellSize;
 		
 		private ArrayList<Point> shortestPath = new ArrayList<Point>();
@@ -128,7 +127,6 @@ public class TestPathFinderGui extends JFrame {
 		
 		public AStarPanel(int[][] map, int mapWidth, int mapHeight, int cellSize) {
 			super();
-			this.map = map;
 			this.mapWidth = mapWidth;
 			this.mapHeight = mapHeight;
 			this.cellSize = cellSize;
@@ -159,8 +157,8 @@ public class TestPathFinderGui extends JFrame {
 				int y = h * cellSize;
 				for(int w = 0; w < mapWidth; ++w) {
 					int x = w * cellSize;
-					boolean isObstacle = (map[h][w] == 1 ? true : false);
-					if(isObstacle) {
+					AStarCell cell = TestPathFinderGui.this.map.getCell(w, h);
+					if(AStarCell.isObstacle(cell)) {
 						g.setColor(Color.BLACK);
 						g.fillRect(x, y, cellSize, cellSize);
 					} else {

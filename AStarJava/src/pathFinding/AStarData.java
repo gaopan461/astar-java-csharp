@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class AStarData {
+	// 不可通过单元的寻路信息
+	public static final int OBSTACLE_VALUE = 1;
+	
 	private static final String SPLIT_SUFFIX = ",";
 	
 	private int widthInCells;
@@ -78,7 +81,7 @@ public class AStarData {
 		try {
 			return obstacleInfo[y][x];
 		} catch (Exception e) {
-			return 1;
+			return OBSTACLE_VALUE;
 		}
 	}
 	
