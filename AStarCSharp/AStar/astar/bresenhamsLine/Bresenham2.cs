@@ -1,44 +1,27 @@
-﻿using AStar.astar.graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AStar.astar
+namespace AStar.astar.bresenhamsLine
 {
-    class PathFinder
+    class Bresenham2
     {
-        private AStarMap map;
-        private Logger log = new Logger();
-        private Stopwatch s = new Stopwatch();
-
-        public PathFinder(AStarMap map)
-        {
-            this.map = map;
-        }
-
         private static Point toPoint(float x, float y)
         {
             return new Point((int)Math.Floor(x), (int)Math.Floor(y));
         }
 
-        public Point raycast(Point start, Point goal) 
+        public static List<Point> getCellsOnLine(Point start, Point goal)
         {
-            // exception: start is obstacle. Now just return start
-            if (AStarCell.isObstacle(map.getCell(start.x, start.y)))
-            {
-                return start;
-            }
+            List<Point> line = new List<Point>();
+            line.Add(start);
 
             if (start.Equals(goal))
             {
-                return start;
+                return line;
             }
-
-            List<Point> line = new List<Point>();
-            line.Add(start);
 
             float startx = start.x + 0.5f;
             float starty = start.y + 0.5f;
@@ -55,7 +38,6 @@ namespace AStar.astar
 
             float lastPassedx = startx;
             float lastPassedy = starty;
-            Point hitPoint = new Point(start.x, start.y);
             while (true)
             {
                 float nextx = 0;
@@ -147,106 +129,12 @@ namespace AStar.astar
                     break;
                 }
 
-                if (AStarCell.isObstacle(map.getCell(newCell.x, newCell.y)))
-                {
-                    break;
-                }
-                else
-                {
-                    hitPoint.x = newCell.x;
-                    hitPoint.y = newCell.y;
-
-                    if (newCell.Equals(goal))
-                    {
-                        break;
-                    }
-                }
-
+                line.Add(newCell);
                 lastPassedx = nextx;
                 lastPassedy = nexty;
             }
 
-            return hitPoint;
-	    }
-
-        public List<Point> findStraightPath(Point start, Point goal)
-        {
-            List<Point> waypoints;
-
-            // optimized, check can straight pass
-            Point hitPoint = raycast(start, goal);
-            if (hitPoint.Equals(goal))
-            {
-                waypoints = new List<Point>();
-                waypoints.Add(start);
-                waypoints.Add(goal);
-                return waypoints;
-            }
-
-            log.addToLog("AStar Heuristic initializing...");
-            AStarHeuristic heuristic = new DiagonalHeuristic();
-
-            log.addToLog("AStar initializing...");
-            AStar aStar = new AStar(map, heuristic);
-
-            log.addToLog("Calculating shortest path with AStar...");
-            List<Point> shortestPath = aStar.calcShortestPath(start.x, start.y, goal.x, goal.y);
-            if (shortestPath == null || shortestPath.Count == 0)
-            {
-                return null;
-            }
-
-            log.addToLog("Calculating optimized waypoints...");
-            s.Start();
-            waypoints = calcStraightPath(shortestPath);
-            s.Stop();
-            log.addToLog("Time to calculate waypoints: " + s.ElapsedMilliseconds + " ms");
-
-            return waypoints;
+            return line;
         }
-
-        private List<Point> calcStraightPath(List<Point> shortestPath)
-        {
-            if (shortestPath == null || shortestPath.Count <= 0)
-            {
-                return shortestPath;
-            }
-
-            List<Point> waypoints = new List<Point>();
-
-            Point p1 = shortestPath[0];
-            int p1Number = 0;
-            waypoints.Add(p1);
-
-            int p2Number = 1;
-            do
-            {
-                Point p2 = shortestPath[p2Number];
-                if (!lineClear(p1, p2))
-                {
-                    p1Number = p2Number - 1;
-                    p1 = shortestPath[p1Number];
-                    waypoints.Add(p1);
-                    log.addToLog("Got waypoint: " + p1.ToString());
-                }
-                p2Number++;
-            } while (p2Number < shortestPath.Count);
-            waypoints.Add(shortestPath[p2Number - 1]);
-
-            return waypoints;
-        }
-
-        private bool lineClear(Point a, Point b)
-        {
-            Point hitPoint = raycast(a, b);
-            if (hitPoint.Equals(b))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-	    }
     }
 }

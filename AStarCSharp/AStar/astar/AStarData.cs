@@ -9,6 +9,9 @@ namespace AStar.astar
 {
     class AStarData
     {
+        // 不可通过单元的寻路信息
+        public const int OBSTACLE_VALUE = 1;
+
         private const String SPLIT_SUFFIX = ",";
 	
 	    private int widthInCells;
@@ -94,7 +97,7 @@ namespace AStar.astar
 		    }
             catch (Exception e)
             {
-			    return 1;
+                return AStarData.OBSTACLE_VALUE;
 		    }
 	    }
 	

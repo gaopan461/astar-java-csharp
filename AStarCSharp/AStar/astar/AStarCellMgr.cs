@@ -41,7 +41,7 @@ namespace AStar.astar
 			    for(int x = 0; x < astarData.getWidthInCells(); ++x)
                 {
 				    int obstacle = astarData.getObstacle(x, y);
-				    if(obstacle == 1)
+                    if (obstacle == AStarData.OBSTACLE_VALUE)
                     {
 					    continue;
 				    }
