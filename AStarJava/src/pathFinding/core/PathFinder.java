@@ -17,6 +17,10 @@ public class PathFinder {
 		this.map = map;
 	}
 	
+	private static Point toPoint(float x, float y) {
+		return new Point((int)Math.floor(x), (int)Math.floor(y));
+	}
+	
 	/**
 	 * Bresenham line algorithm
 	 * @param start
@@ -29,43 +33,114 @@ public class PathFinder {
 			return start;
 		}
 		
-		int dx = Math.abs(goal.x - start.x);
-		int dy = Math.abs(goal.y - start.y);
-		
-		int sx = start.x < goal.x ? 1 : -1; 
-		int sy = start.y < goal.y ? 1 : -1; 
-		
-		int err = dx-dy;
-		int e2;
-		int currentX = start.x;
-		int currentY = start.y;
-		
-		Point hitPoint = new Point(currentX, currentY);
-		while(true) {
-			AStarCell cell = map.getCell(currentX, currentY); 
-			if(AStarCell.isObstacle(cell)) {
-				break;
-			} else {
-				hitPoint.x = currentX;
-				hitPoint.y = currentY;
-			}
-			
-			if(currentX == goal.x && currentY == goal.y) {
-				break;
-			}
-			
-			e2 = 2*err;
-			if(e2 > -1 * dy) {
-				err = err - dy;
-				currentX = currentX + sx;
-			}
-			
-			if(e2 < dx) {
-				err = err + dx;
-				currentY = currentY + sy;
-			}
+		if(start.equals(goal)) {
+			return start;
 		}
 		
+		ArrayList<Point> line = new ArrayList<Point>();
+		line.add(start);
+		
+		float startx = start.x + 0.5f;
+		float starty = start.y + 0.5f;
+		float goalx = goal.x + 0.5f;
+		float goaly = goal.y + 0.5f;
+		
+		float diffx = goalx - startx;
+		float diffy = goaly - starty;
+		float distanceSquare = diffx * diffx + diffy * diffy;
+		float distance = (float)Math.sqrt(distanceSquare);
+		
+		float dirx = diffx / distance;
+		float diry = diffy / distance;
+		
+		float lastPassedx = startx;
+		float lastPassedy = starty;
+		Point hitPoint = new Point(start);
+		while(true) {
+			float nextx = 0;
+			float nexty = 0;
+			
+			Point coord = toPoint(lastPassedx, lastPassedy);
+			float dx;
+			float dy;
+			if(dirx > 0) {
+				if(diry > 0) {
+					float cx = coord.x + 1;
+					float cy = coord.y + 1;
+					dx = cx - lastPassedx;
+					dy = cy - lastPassedy;
+				} else {
+					float cx = coord.x + 1;
+					float cy = coord.y;
+					dx = cx - lastPassedx;
+					dy = lastPassedy - cy;
+				}
+			} else {
+				if(diry > 0) {
+					float cx = coord.x;
+					float cy = coord.y + 1;
+					dx = lastPassedx - cx;
+					dy = cy - lastPassedy;
+				} else {
+					float cx = coord.x;
+					float cy = coord.y;
+					dx = lastPassedx - cx;
+					dy = lastPassedy - cy;
+				}
+			}
+			
+			float factorx = Math.abs(dx / dirx);
+			float factory = Math.abs(dy / diry);
+			
+			if(Float.isInfinite(factorx)) {
+				factorx = 0.0f;
+			}
+			
+			if(Float.isInfinite(factory)) {
+				factory = 0.0f;
+			}
+			
+			if(factory == 0.0f) {
+				nextx = lastPassedx + dirx * factorx;
+				nexty = lastPassedy + diry * factorx;
+			} else if(factorx == 0.0f) {
+				nextx = lastPassedx + dirx * factory;
+				nexty = lastPassedy + diry * factory;
+			} else if(factorx < factory) {
+				nextx = lastPassedx + dirx * factorx;
+				nexty = lastPassedy + diry * factorx;
+			} else {
+				nextx = lastPassedx + dirx * factory;
+				nexty = lastPassedy + diry * factory;
+			}
+			
+			Point newCell;
+			do{
+				nextx += dirx * 0.001f;
+				nexty += diry * 0.001f;
+				newCell = toPoint(nextx, nexty);
+			}while(newCell.equals(coord));
+			
+			float dis = (nextx-startx) * (nextx-startx) + (nexty-starty) * (nexty-starty);
+			if(dis >= distanceSquare) {
+				break;
+			}
+			
+			if(AStarCell.isObstacle(map.getCell(newCell.x, newCell.y))) {
+				break;
+			} else {
+				hitPoint.x = newCell.x;
+				hitPoint.y = newCell.y;
+				
+				if(newCell.equals(goal)) {
+					break;
+				}
+			}
+			
+			lastPassedx = nextx;
+			lastPassedy = nexty;
+		}
+				
 		return hitPoint;
 	}
 	
@@ -101,8 +176,8 @@ public class PathFinder {
 	}
 	
 	public ArrayList<Point> calcStraightPath(ArrayList<Point> shortestPath) {
-		if(shortestPath == null || shortestPath.isEmpty()) {
-			return null;
+		if(shortestPath == null || shortestPath.size() <= 2) {
+			return shortestPath;
 		}
 		
 		ArrayList<Point> waypoints = new ArrayList<Point>();
@@ -111,24 +186,18 @@ public class PathFinder {
 		int p1Number = 0;
 		waypoints.add(p1);
 		
-		Point p2 = shortestPath.get(1);
 		int p2Number = 1;
-		
-		while(!p2.equals(shortestPath.get(shortestPath.size()-1))) {
-			if(lineClear(p1, p2)) {
-				//make p2 the next point in the path
-				p2Number++;
-				p2 = shortestPath.get(p2Number);
-			} else {
+		do{
+			Point p2 = shortestPath.get(p2Number);
+			if(!lineClear(p1, p2)) {
 				p1Number = p2Number-1;
 				p1 = shortestPath.get(p1Number);
 				waypoints.add(p1);
 				log.addToLog("Got waypoint: " + p1.toString());
-				p2Number++;
-				p2 = shortestPath.get(p2Number);
 			}
-		}
-		waypoints.add(p2);
+			p2Number++;
+		}while(p2Number < shortestPath.size());
+		waypoints.add(shortestPath.get(p2Number - 1));
 		
 		return waypoints;
 	}
