@@ -50,6 +50,7 @@
     <Compile Include="astar\core\AStarMap.cs" />
     <Compile Include="astar\core\AStar.cs" />
     <Compile Include="astar\bresenhamsLine\Bresenham.cs" />
+    <Compile Include="astar\core\PathFinder2.cs" />
     <Compile Include="astar\DetourAStar.cs" />
     <Compile Include="astar\graphics\PrintMap.cs" />
     <Compile Include="astar\heuristics\AStarHeuristic.cs" />
@@ -64,6 +65,8 @@
     <Compile Include="astar\core\AStarCell.cs" />
     <Compile Include="astar\utils\Point.cs" />
     <Compile Include="astar\utils\MergeSortClass.cs" />
+    <Compile Include="astar\utils\Vector2D.cs" />
+    <Compile Include="astar\utils\Vector3D.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

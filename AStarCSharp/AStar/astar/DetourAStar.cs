@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AStar.astar.core;
+using AStar.astar.utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,73 +10,84 @@ namespace AStar.astar
 {
     class DetourAStar
     {
-        //private AStarMap astarMap;
-        //private PathFinder pathFinder;
+        private AStarMap astarMap;
+        private PathFinder2 pathFinder;
 
-        //public DetourAStar(AStarMap astarMap) {
-        //    this.astarMap = astarMap;
-        //    this.pathFinder = new PathFinder(astarMap);
-        //}
+        public DetourAStar(AStarMap astarMap)
+        {
+            this.astarMap = astarMap;
+            this.pathFinder = new PathFinder2(astarMap);
+        }
 
-        //public Vector3D getHeight(Vector2D pos) {
-        //    int cellX = (int)Math.Floor(pos.x / astarMap.getCellSize());
-        //    int cellY = (int)Math.Floor(pos.y / astarMap.getCellSize());
-        //    float height = astarMap.getHeight(cellX, cellY);
-        //    return new Vector3D(pos.x, pos.y, height);
-        //}
+        public Vector3D getHeight(Vector2D pos)
+        {
+            int cellX = (int)Math.Floor(pos.x / astarMap.getCellSize());
+            int cellY = (int)Math.Floor(pos.y / astarMap.getCellSize());
+            float height = astarMap.getHeight(cellX, cellY);
+            return new Vector3D(pos.x, pos.y, height);
+        }
 
-        //public Vector3D getHeightEx(Vector2D pos) {
-        //    return getHeight(pos);
-        //}
+        public Vector3D getHeightEx(Vector2D pos)
+        {
+            return getHeight(pos);
+        }
 
-        //public List<Vector3D> findPaths(Vector3D startPos, Vector3D endPos) {
-        //    int startX = (int)Math.Floor(startPos.x / astarMap.getCellSize());
-        //    int startY = (int)Math.Floor(startPos.y / astarMap.getCellSize());
-        //    int endX = (int)Math.Floor(endPos.x / astarMap.getCellSize());
-        //    int endY = (int)Math.Floor(endPos.y / astarMap.getCellSize());
+        public List<Vector3D> findPaths(Vector3D startPos, Vector3D endPos)
+        {
+		    Vector2D startPos2D = new Vector2D(startPos.x, startPos.y);
+		    Vector2D endPos2D = new Vector2D(endPos.x, endPos.y);
 		
-        //    List<Point> path2D = pathFinder.findStraightPath(new Point(startX, startY), new Point(endX, endY));
-        //    List<Vector3D> path3D = new List<Vector3D>();
-        //    foreach(Point p2D in path2D) {
-        //        float height = astarMap.getHeight(p2D.x, p2D.y);
-        //        float x = (p2D.x + 0.5f) * astarMap.getCellSize();
-        //        float y = (p2D.y + 0.5f) * astarMap.getCellSize();
-        //        path3D.Add(new Vector3D(x, y, height));
-        //    }
+		    List<Vector2D> path2D = pathFinder.findStraightPath(startPos2D, endPos2D, astarMap.getCellSize());
+		    if(path2D == null) {
+			    // 目的不可达
+			    return null;
+		    }
 		
-        //    return path3D;
-        //}
+		    List<Vector3D> path3D = new List<Vector3D>();
+		    foreach(Vector2D p2D in path2D) {
+			    path3D.Add(getHeight(p2D));
+		    }
+		
+		    return path3D;
+	    }
 
-        //public Vector3D raycast(Vector3D startPos, Vector3D endPos) {
-        //    int startX = (int)Math.Floor(startPos.x / astarMap.getCellSize());
-        //    int startY = (int)Math.Floor(startPos.y / astarMap.getCellSize());
-        //    int endX = (int)Math.Floor(endPos.x / astarMap.getCellSize());
-        //    int endY = (int)Math.Floor(endPos.y / astarMap.getCellSize());
-		
-        //    Point hitPoint = pathFinder.raycast(new Point(startX, startY), new Point(endX, endY));
-        //    float x = (hitPoint.x + 0.5f) * astarMap.getCellSize();
-        //    float y = (hitPoint.y + 0.5f) * astarMap.getCellSize();
-        //    float height = astarMap.getHeight(hitPoint.x, hitPoint.y);
-        //    return new Vector3D(x, y, height);
-        //}
-	
-        //public Vector2D raycast(Vector2D startPos, Vector2D endPos) {
-        //    int startX = (int)Math.Floor(startPos.x / astarMap.getCellSize());
-        //    int startY = (int)Math.Floor(startPos.y / astarMap.getCellSize());
-        //    int endX = (int)Math.Floor(endPos.x / astarMap.getCellSize());
-        //    int endY = (int)Math.Floor(endPos.y / astarMap.getCellSize());
-		
-        //    Point hitPoint = pathFinder.raycast(new Point(startX, startY), new Point(endX, endY));
-        //    float x = (hitPoint.x + 0.5f) * astarMap.getCellSize();
-        //    float y = (hitPoint.y + 0.5f) * astarMap.getCellSize();
-        //    return new Vector2D(x, y);
-        //}
+        public Vector3D raycast(Vector3D startPos, Vector3D endPos)
+        {
+            Vector2D startPos2D = new Vector2D(startPos.x, startPos.y);
+            Vector2D endPos2D = new Vector2D(endPos.x, endPos.y);
+            Vector2D hitPos = raycast(startPos2D, endPos2D);
+            return getHeight(hitPos);
+        }
 
-        //public bool isPosInBlock(Vector3D pos) {
-        //    int cellX = (int)Math.Floor(pos.x / astarMap.getCellSize());
-        //    int cellY = (int)Math.Floor(pos.y / astarMap.getCellSize());
-        //    AStarCell cell = astarMap.getCell(cellX, cellY);
-        //    return AStarCell.isObstacle(cell);
-        //}
+        public Vector2D raycast(Vector2D startPos, Vector2D endPos)
+        {
+            Point startCell = PathFinder2.posToCell(startPos, astarMap.getCellSize());
+            Point goalCell = PathFinder2.posToCell(endPos, astarMap.getCellSize());
+
+            // exception: start is obstacle. Now just return start
+            if (AStarCell.isObstacle(astarMap.getCell(startCell.x, startCell.y)))
+            {
+                return startPos;
+            }
+
+            if (startCell.Equals(goalCell))
+            {
+                return endPos;
+            }
+
+            Point hitCell = pathFinder.raycast(startPos, endPos, astarMap.getCellSize());
+            Vector2D hitPos = PathFinder2.cellToPos(hitCell, astarMap.getCellSize());
+            Vector2D dir = endPos.sub(startPos).normalize();
+            hitPos = PathFinder2.getNextPosBeforeNextCell(hitPos, dir, astarMap.getCellSize());
+            return hitPos;
+        }
+
+        public bool isPosInBlock(Vector3D pos)
+        {
+            int cellX = (int)Math.Floor(pos.x / astarMap.getCellSize());
+            int cellY = (int)Math.Floor(pos.y / astarMap.getCellSize());
+            AStarCell cell = astarMap.getCell(cellX, cellY);
+            return AStarCell.isObstacle(cell);
+        }
     }
 }

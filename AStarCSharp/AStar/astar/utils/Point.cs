@@ -23,6 +23,12 @@ namespace AStar
             this.y = y;
         }
 
+        public Point(Point p)
+        {
+            this.x = p.x;
+            this.y = p.y;
+        }
+
         public object Clone()
         {
             return new Point(x, y);
