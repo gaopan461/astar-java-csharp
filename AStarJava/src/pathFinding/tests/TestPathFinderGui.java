@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,6 +30,8 @@ import pathFinding.heuristics.DiagonalHeuristic;
 import pathFinding.utils.StopWatch;
 
 public class TestPathFinderGui extends JFrame {
+	private static final long serialVersionUID = 1L;
+
 	private enum DrawType {
 		NONE,
 		DRAWING,
@@ -67,20 +70,20 @@ public class TestPathFinderGui extends JFrame {
 		frame.findPath();
 	}
 	
-	private ArrayList<Point> findAStarPath() {
+	private List<Point> findAStarPath() {
 		AStarHeuristic heuristic = new DiagonalHeuristic();
 		
 		AStar aStar = new AStar(map, heuristic);
 		
-		ArrayList<Point> shortestPath = aStar.calcShortestPath(startX, startY, goalX, goalY);
+		List<Point> shortestPath = aStar.calcShortestPath(startX, startY, goalX, goalY);
 		
 		return shortestPath;
 	}
 	
-	private ArrayList<Point> findOptimizedPath() {
+	private List<Point> findOptimizedPath() {
 		PathFinder pathfinder = new PathFinder(map);
 		
-		ArrayList<Point> optimizedPath = pathfinder.findStraightPath(new Point(startX, startY), new Point(goalX, goalY));
+		List<Point> optimizedPath = pathfinder.findStraightPath(new Point(startX, startY), new Point(goalX, goalY));
 		
 		return optimizedPath;
 	}
@@ -93,13 +96,13 @@ public class TestPathFinderGui extends JFrame {
 		StopWatch s = new StopWatch();
 		
 		s.start();
-		ArrayList<Point> shortestPath = findAStarPath();
+		List<Point> shortestPath = findAStarPath();
 		s.stop();
 		
 		sb.append(", Time to calculate astar path:").append(s.getElapsedTimeUSecs());
 		
 		s.start();
-		ArrayList<Point> optimizedPath = findOptimizedPath();
+		List<Point> optimizedPath = findOptimizedPath();
 		s.stop();
 
 		sb.append(", Time to calculate optimized path:").append(s.getElapsedTimeUSecs());
@@ -111,15 +114,16 @@ public class TestPathFinderGui extends JFrame {
 	//-----------------------------------------------------------------------------------------------
 	
 	class AStarPanel extends JPanel {
+		private static final long serialVersionUID = 1L;
 		private int mapWidth;
 		private int mapHeight;
 		private int cellSize;
 		
-		private ArrayList<Point> shortestPath = new ArrayList<Point>();
+		private List<Point> shortestPath = new ArrayList<Point>();
 		private int shortestPathDrawIndex = 0;
 		private DrawType shortestPathDrawType = DrawType.NONE;
 		
-		private ArrayList<Point> optimizedPath = new ArrayList<Point>();
+		private List<Point> optimizedPath = new ArrayList<Point>();
 		private int optimizedPathDrawIndex = 0;
 		private DrawType optimizedPathDrawType = DrawType.NONE;
 		
@@ -232,7 +236,7 @@ public class TestPathFinderGui extends JFrame {
 			g.drawPolyline(polygon.xpoints, polygon.ypoints, polygon.npoints);
 		}
 
-		public void setPath(ArrayList<Point> shortestPath, ArrayList<Point> optimizedPath) {
+		public void setPath(List<Point> shortestPath, List<Point> optimizedPath) {
 			this.shortestPath = shortestPath;
 			this.shortestPathDrawIndex = 0;
 			this.optimizedPath = optimizedPath;

@@ -1,7 +1,7 @@
 package pathFinding.tests;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.util.List;
 
 import pathFinding.AStarCellMgr;
 import pathFinding.AStarSingleTileMap;
@@ -31,7 +31,7 @@ public class TestPathFinder {
 		PathFinder pathfinder = new PathFinder(map);
 		Point start = new Point(startX, startY);
 		Point goal = new Point(goalX, goalY);
-		ArrayList<Point> optimizedWaypoints = pathfinder.findStraightPath(start, goal);
+		List<Point> optimizedWaypoints = pathfinder.findStraightPath(start, goal);
 		
 		s.stop();
 		log.addToLog("Total pathfinding took: " + s.getElapsedTimeUSecs() + " us");

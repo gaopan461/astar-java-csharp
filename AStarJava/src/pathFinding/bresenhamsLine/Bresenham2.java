@@ -2,6 +2,7 @@ package pathFinding.bresenhamsLine;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Bresenham2 {
 	
@@ -9,8 +10,8 @@ public class Bresenham2 {
 		return new Point((int)Math.floor(x), (int)Math.floor(y));
 	}
 	
-	public static ArrayList<Point> getCellsOnLine(Point start, Point goal) {
-		ArrayList<Point> line = new ArrayList<Point>();
+	public static List<Point> getCellsOnLine(Point start, Point goal) {
+		List<Point> line = new ArrayList<Point>();
 		line.add(start);
 		
 		if(start.equals(goal)) {

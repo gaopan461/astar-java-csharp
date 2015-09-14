@@ -1,7 +1,7 @@
 package pathFinding.tests;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.util.List;
 
 import pathFinding.AStarCellMgr;
 import pathFinding.AStarSingleTileMap;
@@ -26,7 +26,7 @@ public class TestBresenhamsLine {
 		
 		log.addToLog("Generating Bresenham's Line from "+a.x+","+a.y+" to "+b.x+","+b.y+"...");
 		s.start();
-		ArrayList<Point> line = Bresenham.getCellsOnLine(a, b);
+		List<Point> line = Bresenham.getCellsOnLine(a, b);
 		s.stop();
 		log.addToLog("Generation took " + s.getElapsedTimeUSecs() + " us");
 		

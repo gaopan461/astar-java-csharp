@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class AStarMapEditor extends JFrame {
+	private static final long serialVersionUID = 1L;
+
 	public enum  OperatorType{
 		fill,
 		clear,

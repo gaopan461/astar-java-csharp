@@ -3,6 +3,7 @@ package pathFinding.core;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import pathFinding.heuristics.AStarHeuristic;
 
@@ -12,15 +13,15 @@ public class AStar {
 	/**
 	 * openList The list of Cells not searched yet, sorted by their distance to the goal as guessed by our heuristic.
 	 */
-	private ArrayList<AStarCell> closedList = new ArrayList<AStarCell>();;
-	private ArrayList<AStarCell> openList = new ArrayList<AStarCell>();;
+	private List<AStarCell> closedList = new ArrayList<AStarCell>();;
+	private List<AStarCell> openList = new ArrayList<AStarCell>();;
 
 	public AStar(AStarMap map, AStarHeuristic heuristic) {
 		this.map = map;
 		this.heuristic = heuristic;
 	}
 
-	public ArrayList<Point> calcShortestPath(int startX, int startY, int goalX, int goalY) {
+	public List<Point> calcShortestPath(int startX, int startY, int goalX, int goalY) {
 		AStarCell startCell = map.getCell(startX, startY);
 		AStarCell goalCell = map.getCell(goalX, goalY);
 		
@@ -91,8 +92,8 @@ public class AStar {
 		return null;
 	}
 
-	private ArrayList<Point> reconstructPath(AStarCell cell) {
-		ArrayList<Point> path = new ArrayList<Point>();
+	private List<Point> reconstructPath(AStarCell cell) {
+		List<Point> path = new ArrayList<Point>();
 		while(!(cell.getPreviousCell() == null)) {
 			path.add(0,cell.getPoint());
 			cell = cell.getPreviousCell();

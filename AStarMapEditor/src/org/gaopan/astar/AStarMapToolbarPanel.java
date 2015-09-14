@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class AStarMapToolbarPanel extends JPanel {
+	private static final long serialVersionUID = 1L;
 	private static final int WHITE_PIXEL_VALUE = 255 * 3 - 10;
 	private static final float DEFAULT_CELL_SIZE = 0f;
 	private static final float DEFAULT_HEIGHT = 0f;
@@ -201,9 +202,11 @@ public class AStarMapToolbarPanel extends JPanel {
 	
 	private void loadData() {
 		File file = new File(fdOpen.getDirectory(), fdOpen.getFile());
+		FileReader freader = null;
+		BufferedReader breader = null;
         try {
-            FileReader freader = new FileReader(file);
-            BufferedReader breader = new BufferedReader(freader);
+            freader = new FileReader(file);
+            breader = new BufferedReader(freader);
             String line = breader.readLine();
             if(line == null) {
             	throw new RuntimeException("file empty");
@@ -241,15 +244,20 @@ public class AStarMapToolbarPanel extends JPanel {
             }
             
             editorFrame.loadMap(map, width, height);
-           
-            breader.close();
-            freader.close();
         } catch (FileNotFoundException ex) {
             // TODO Auto-generated catch block
         	ex.printStackTrace();
         } catch (IOException ex) {
             // TODO Auto-generated catch block
         	ex.printStackTrace();
+        } finally {
+        	try {
+				breader.close();
+				freader.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
 	}
 	

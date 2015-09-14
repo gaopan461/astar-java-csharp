@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -23,6 +24,7 @@ import pathFinding.utils.Logger;
 import pathFinding.utils.StopWatch;
 
 public class MapPanel extends JPanel {
+	private static final long serialVersionUID = 1L;
 	private TestRandomMap frame;
 	private float cellSize;
 	
@@ -36,10 +38,10 @@ public class MapPanel extends JPanel {
 	
 	private boolean drawing = false;
 	
-	private ArrayList<Point> shortestPathDrawed = new ArrayList<>();
-	private ArrayList<Point> optimizedPathDrawed = new ArrayList<>();
-	private ArrayList<Point> shortestPathUndraw = new ArrayList<>();
-	private ArrayList<Point> optimizedPathUndraw = new ArrayList<>();
+	private List<Point> shortestPathDrawed = new ArrayList<>();
+	private List<Point> optimizedPathDrawed = new ArrayList<>();
+	private List<Point> shortestPathUndraw = new ArrayList<>();
+	private List<Point> optimizedPathUndraw = new ArrayList<>();
 	
 	private Timer shortestPathDrawTimer = new Timer(5, new ActionListener() {
 		
@@ -167,20 +169,20 @@ public class MapPanel extends JPanel {
 		g.drawPolyline(polygon.xpoints, polygon.ypoints, polygon.npoints);
 	}
 	
-	private ArrayList<Point> findAStarPath() {
+	private List<Point> findAStarPath() {
 		AStarHeuristic heuristic = new DiagonalHeuristic();
 		
 		AStar aStar = new AStar(astarMap, heuristic);
 		
-		ArrayList<Point> shortestPath = aStar.calcShortestPath(start.x, start.y, goal.x, goal.y);
+		List<Point> shortestPath = aStar.calcShortestPath(start.x, start.y, goal.x, goal.y);
 		
 		return shortestPath;
 	}
 	
-	private ArrayList<Point> findOptimizedPath() {
+	private List<Point> findOptimizedPath() {
 		PathFinder pathfinder = new PathFinder(astarMap);
 		
-		ArrayList<Point> optimizedPath = pathfinder.findStraightPath(start, goal);
+		List<Point> optimizedPath = pathfinder.findStraightPath(start, goal);
 		
 		return optimizedPath;
 	}
@@ -193,13 +195,13 @@ public class MapPanel extends JPanel {
 		StopWatch s = new StopWatch();
 		
 		s.start();
-		ArrayList<Point> shortestPath = findAStarPath();
+		List<Point> shortestPath = findAStarPath();
 		s.stop();
 		
 		sb.append(", Time to calculate astar path:").append(s.getElapsedTimeUSecs());
 		
 		s.start();
-		ArrayList<Point> optimizedPath = findOptimizedPath();
+		List<Point> optimizedPath = findOptimizedPath();
 		s.stop();
 
 		sb.append(", Time to calculate optimized path:").append(s.getElapsedTimeUSecs());
@@ -209,7 +211,7 @@ public class MapPanel extends JPanel {
 		drawPath(shortestPath, optimizedPath);
 	}
 	
-	private void drawPath(ArrayList<Point> shortestPath, ArrayList<Point> optimizedPath) {
+	private void drawPath(List<Point> shortestPath, List<Point> optimizedPath) {
 		this.shortestPathUndraw = shortestPath;
 		this.optimizedPathUndraw = optimizedPath;
 		

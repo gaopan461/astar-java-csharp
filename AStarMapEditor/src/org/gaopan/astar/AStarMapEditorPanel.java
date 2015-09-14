@@ -10,6 +10,7 @@ import java.awt.event.MouseMotionAdapter;
 import javax.swing.JPanel;
 
 public class AStarMapEditorPanel extends JPanel {
+	private static final long serialVersionUID = 1L;
 	private int cellWidth;
 	private int cellHeight;
 	private int[][] map;

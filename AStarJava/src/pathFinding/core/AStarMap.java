@@ -1,6 +1,7 @@
 package pathFinding.core;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The AreaMap holds information about the With, Height, 
@@ -32,8 +33,8 @@ public abstract class AStarMap {
 		return cellSize;
 	}
 
-	public ArrayList<AStarCell> getNeighborList(AStarCell cell) {
-		ArrayList<AStarCell> neighborList = new ArrayList<AStarCell>();
+	public List<AStarCell> getNeighborList(AStarCell cell) {
+		List<AStarCell> neighborList = new ArrayList<AStarCell>();
 		if (cell.getY() > 0) {// down
 			AStarCell neighbor = getCell(cell.getX(), (cell.getY() - 1));
 			if(!AStarCell.isObstacle(neighbor)) {

@@ -32,6 +32,7 @@ import xtile.Tile;
 import xtile.TileMap;
 
 public class TestRandomMap extends JFrame {    
+	private static final long serialVersionUID = 1L;
 	private static final int MAX_ROW = 5;
 	private static final int MAX_COL = 5;
 	private static final int MAX_TRY = 100;

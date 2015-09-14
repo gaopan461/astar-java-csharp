@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,6 +21,7 @@ import pathFinding.utils.Logger;
 import pathFinding.utils.StopWatch;
 
 public class TestRaycastGui extends JFrame {
+	private static final long serialVersionUID = 1L;
 	private static int startX = 50;
 	private static int startY = 12;
 	private static int goalX = 158;
@@ -63,7 +65,7 @@ public class TestRaycastGui extends JFrame {
 		s.stop();
 		log.addToLog("Time to raycast: " + s.getElapsedTimeUSecs() + " us");
 		
-		ArrayList<Point> path = new ArrayList<Point>();
+		List<Point> path = new ArrayList<Point>();
 		path.add(start);
 		path.add(hitPoint);
 		
@@ -73,11 +75,12 @@ public class TestRaycastGui extends JFrame {
 	//-----------------------------------------------------------------------------------------
 	
 	class AStarPanel extends JPanel {
+		private static final long serialVersionUID = 1L;
 		private int mapWidth;
 		private int mapHeight;
 		private int cellSize;
 		
-		private ArrayList<Point> optimizedPath = new ArrayList<Point>();
+		private List<Point> optimizedPath = new ArrayList<Point>();
 		
 		public AStarPanel(int[][] map, int mapWidth, int mapHeight, int cellSize) {
 			super();
@@ -120,7 +123,7 @@ public class TestRaycastGui extends JFrame {
 			g.drawPolyline(polygon.xpoints, polygon.ypoints, polygon.npoints);
 		}
 
-		public void setPath(ArrayList<Point> optimizedPath) {
+		public void setPath(List<Point> optimizedPath) {
 			this.optimizedPath = optimizedPath;
 			repaint();
 		}

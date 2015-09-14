@@ -2,6 +2,7 @@ package pathFinding.bresenhamsLine;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementation of the Bresenham line algorithm.
@@ -16,9 +17,9 @@ public class Bresenham {
 	 * @param goal the finishing point
 	 * @return the line as a list of array elements
 	 */
-	public static ArrayList<Point> getCellsOnLine(Point start, Point goal) {
+	public static List<Point> getCellsOnLine(Point start, Point goal) {
 		
-		ArrayList<Point> line = new ArrayList<Point>();
+		List<Point> line = new ArrayList<Point>();
 		
 		int dx = Math.abs(goal.x - start.x);
 		int dy = Math.abs(goal.y - start.y);

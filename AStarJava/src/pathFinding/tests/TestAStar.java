@@ -1,7 +1,7 @@
 package pathFinding.tests;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.util.List;
 
 import pathFinding.AStarCellMgr;
 import pathFinding.AStarSingleTileMap;
@@ -37,7 +37,7 @@ public class TestAStar {
 		
 		log.addToLog("Calculating shortest path...");
 		s.start();
-		ArrayList<Point> shortestPath = aStar.calcShortestPath(startX, startY, goalX, goalY);
+		List<Point> shortestPath = aStar.calcShortestPath(startX, startY, goalX, goalY);
 		s.stop();
 		
 		log.addToLog("Time to calculate path in microseconds: " + s.getElapsedTimeUSecs());

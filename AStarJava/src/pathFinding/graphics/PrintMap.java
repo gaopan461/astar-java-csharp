@@ -1,13 +1,13 @@
 package pathFinding.graphics;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.util.List;
 
 import pathFinding.core.AStarCell;
 import pathFinding.core.AStarMap;
 
 public class PrintMap {
-	public PrintMap(AStarMap map, ArrayList<Point> shortestPath) {
+	public PrintMap(AStarMap map, List<Point> shortestPath) {
 		AStarCell cell;
 		for(int y = 0; y < map.getHeightInCells(); y++) {
 			if(y == 0) {
@@ -41,7 +41,7 @@ public class PrintMap {
 			System.out.print("-");
 	}
 	
-	private static boolean isStart(ArrayList<Point> shortestPath, Point point) {
+	private static boolean isStart(List<Point> shortestPath, Point point) {
 		if(shortestPath.isEmpty()) {
 			return false;
 		}
@@ -49,7 +49,7 @@ public class PrintMap {
 		return shortestPath.get(0).equals(point);
 	}
 	
-	private static boolean isGoal(ArrayList<Point> shortestPath, Point point) {
+	private static boolean isGoal(List<Point> shortestPath, Point point) {
 		if(shortestPath.isEmpty()) {
 			return false;
 		}
