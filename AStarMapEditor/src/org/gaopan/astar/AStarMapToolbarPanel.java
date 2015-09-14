@@ -28,6 +28,8 @@ public class AStarMapToolbarPanel extends JPanel {
 	private static final float DEFAULT_CELL_SIZE = 0f;
 	private static final float DEFAULT_HEIGHT = 0f;
 	
+	private static final String SPLIT_SUFFIX = ",";
+	
 	private AStarMapEditor editorFrame;
 	
 	private JLabel jlbCellWidth = new JLabel("Width:");
@@ -179,12 +181,12 @@ public class AStarMapToolbarPanel extends JPanel {
         	int width = editorFrame.getEditorPanel().getCellWidth();
         	int height = editorFrame.getEditorPanel().getCellHeight();
         	
-        	bwriter.write(width + "," + height + "," + DEFAULT_CELL_SIZE);
+        	bwriter.write(width + SPLIT_SUFFIX + height + SPLIT_SUFFIX + DEFAULT_CELL_SIZE);
         	bwriter.newLine();
         	
         	for(int h = 0; h < height; ++h) {
         		for(int w = 0; w < width; ++w) {
-        			bwriter.write(map[h][w] + "," + DEFAULT_HEIGHT + ",");
+        			bwriter.write(map[h][w] + SPLIT_SUFFIX + DEFAULT_HEIGHT + SPLIT_SUFFIX);
         		}
         		bwriter.newLine();
         	}
@@ -207,7 +209,7 @@ public class AStarMapToolbarPanel extends JPanel {
             	throw new RuntimeException("file empty");
             }
             
-            String[] values = line.split(",");
+            String[] values = line.split(SPLIT_SUFFIX);
             if(values.length < 3) {
             	throw new RuntimeException("file invalid");
             }
@@ -226,7 +228,7 @@ public class AStarMapToolbarPanel extends JPanel {
             		throw new RuntimeException("file invalid");
             	}
             	
-            	values = line.split(",");
+            	values = line.split(SPLIT_SUFFIX);
                 if(values.length < width * 2) {
                 	throw new RuntimeException("file invalid");
                 }

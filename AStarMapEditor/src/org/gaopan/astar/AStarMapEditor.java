@@ -15,7 +15,7 @@ public class AStarMapEditor extends JFrame {
 	public static final int OBSTACLE_VALUE = 1;
 	
 	// 可通过单元的寻路信息
-	public static final int PASS_VALUE = 1;
+	public static final int PASS_VALUE = 0;
 	
 	private static final int DEFAULT_CELL_WIDTH = 40;
 	private static final int DEFAULT_CELL_HEIGHT = 40;
@@ -43,7 +43,7 @@ public class AStarMapEditor extends JFrame {
 	}
 	
 	private void setSize() {
-		this.setSize(editorPanel.getPreferredWidth() + 50, editorPanel.getPreferredHeight() + 150);
+		this.setSize(editorPanel.getPreferredWidth() + 250, editorPanel.getPreferredHeight() + 150);
 	}
 
 	public AStarMapEditorPanel getEditorPanel() {

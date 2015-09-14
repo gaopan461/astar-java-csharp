@@ -39,7 +39,7 @@ public class TestPathFinderGui extends JFrame {
 	private static int startY = 12;
 	private static int goalX = 158;
 	private static int goalY = 110;
-	private static int cellSize = 4;
+	private static int cellSize = 8;
 	
 	private JLabel statusBar = new JLabel();
 	

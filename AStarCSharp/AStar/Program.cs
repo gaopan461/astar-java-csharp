@@ -13,8 +13,8 @@ namespace AStar
         {
             AStarDataMgr.init();
             //astar.tests.TestBresenhamsLine.run(args);
-            astar.tests.TestAStar.run(args);
-            //astar.tests.TestPathFinder.run(args);
+            //astar.tests.TestAStar.run(args);
+            astar.tests.TestPathFinder.run(args);
         }
     }
 }
