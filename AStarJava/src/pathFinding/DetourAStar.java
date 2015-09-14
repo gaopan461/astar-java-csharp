@@ -6,18 +6,18 @@ import java.util.List;
 
 import pathFinding.core.AStarCell;
 import pathFinding.core.AStarMap;
-import pathFinding.core.PathFinder;
+import pathFinding.core.PathFinder2;
 import pathFinding.utils.Vector2D;
 import pathFinding.utils.Vector3D;
 
 public class DetourAStar {
 	private AStarMap astarMap;
-	private PathFinder pathFinder;
+	private PathFinder2 pathFinder;
 
 	public DetourAStar(AStarMap astarMap) {
 		super();
 		this.astarMap = astarMap;
-		this.pathFinder = new PathFinder(astarMap);
+		this.pathFinder = new PathFinder2(astarMap);
 	}
 
 	public Vector3D getHeight(Vector2D pos) {
@@ -47,69 +47,33 @@ public class DetourAStar {
 		}
 		
 		return path3D;
-		
-//		int startX = (int)Math.floor(startPos.x / astarMap.getCellSize());
-//		int startY = (int)Math.floor(startPos.y / astarMap.getCellSize());
-//		int endX = (int)Math.floor(endPos.x / astarMap.getCellSize());
-//		int endY = (int)Math.floor(endPos.y / astarMap.getCellSize());
-//		
-//		List<Point> path2D = pathFinder.findStraightPath(new Point(startX, startY), new Point(endX, endY));
-//		if(path2D == null) {
-//			// 目的不可达
-//			return null;
-//		}
-//		
-//		List<Vector3D> path3D = new ArrayList<>();
-//		for(Point p2D : path2D) {
-//			float height = astarMap.getHeight(p2D.x, p2D.y);
-//			float x = (p2D.x + 0.5f) * astarMap.getCellSize();
-//			float y = (p2D.y + 0.5f) * astarMap.getCellSize();
-//			path3D.add(new Vector3D(x, y, height));
-//		}
-		
-//		if(path3D.size() >= 2) {
-//			Vector3D first = path3D.get(0);
-//			Vector3D second = path3D.get(1);
-//			first.x = (first.x + second.x) / 2;
-//			first.y = (first.y + second.y) / 2;
-//		}
-//		
-//		if(path3D.size() >= 3) {
-//			Vector3D last = path3D.get(path3D.size() - 1);
-//			Vector3D lastSecond = path3D.get(path3D.size() - 2);
-//			last.x = (last.x + lastSecond.x) / 2;
-//			last.y = (last.y + lastSecond.y) / 2;
-//		}
-		
-//		path3D.add(0, startPos);
-//		path3D.add(endPos);
-//		
-//		return path3D;
 	}
 
 	public Vector3D raycast(Vector3D startPos, Vector3D endPos) {
-		int startX = (int)Math.floor(startPos.x / astarMap.getCellSize());
-		int startY = (int)Math.floor(startPos.y / astarMap.getCellSize());
-		int endX = (int)Math.floor(endPos.x / astarMap.getCellSize());
-		int endY = (int)Math.floor(endPos.y / astarMap.getCellSize());
-		
-		Point hitPoint = pathFinder.raycast(new Point(startX, startY), new Point(endX, endY));
-		float x = (hitPoint.x + 0.5f) * astarMap.getCellSize();
-		float y = (hitPoint.y + 0.5f) * astarMap.getCellSize();
-		float height = astarMap.getHeight(hitPoint.x, hitPoint.y);
-		return new Vector3D(x, y, height);
+		Vector2D startPos2D = new Vector2D(startPos.x, startPos.y);
+		Vector2D endPos2D = new Vector2D(endPos.x, endPos.y);
+		Vector2D hitPos = raycast(startPos2D, endPos2D);
+		return getHeight(hitPos);
 	}
 	
 	public Vector2D raycast(Vector2D startPos, Vector2D endPos) {
-		int startX = (int)Math.floor(startPos.x / astarMap.getCellSize());
-		int startY = (int)Math.floor(startPos.y / astarMap.getCellSize());
-		int endX = (int)Math.floor(endPos.x / astarMap.getCellSize());
-		int endY = (int)Math.floor(endPos.y / astarMap.getCellSize());
+		Point startCell = PathFinder2.posToCell(startPos, astarMap.getCellSize());
+		Point goalCell = PathFinder2.posToCell(endPos, astarMap.getCellSize());
 		
-		Point hitPoint = pathFinder.raycast(new Point(startX, startY), new Point(endX, endY));
-		float x = (hitPoint.x + 0.5f) * astarMap.getCellSize();
-		float y = (hitPoint.y + 0.5f) * astarMap.getCellSize();
-		return new Vector2D(x, y);
+		// exception: start is obstacle. Now just return start
+		if(AStarCell.isObstacle(astarMap.getCell(startCell.x, startCell.y))) {
+			return startPos;
+		}
+		
+		if(startCell.equals(goalCell)) {
+			return endPos;
+		}
+		
+		Point hitCell = pathFinder.raycast(startPos, endPos, astarMap.getCellSize());
+		Vector2D hitPos = PathFinder2.cellToPos(hitCell, astarMap.getCellSize());
+		Vector2D dir = endPos.sub(startPos).normalize();
+		hitPos = PathFinder2.getNextPosBeforeNextCell(hitPos, dir, astarMap.getCellSize());
+		return hitPos;
 	}
 
 	public boolean isPosInBlock(Vector3D pos) {
