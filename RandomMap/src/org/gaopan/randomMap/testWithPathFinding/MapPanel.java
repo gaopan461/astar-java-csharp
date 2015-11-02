@@ -1,4 +1,4 @@
-package pathFinding.tests.randomMap;
+package org.gaopan.randomMap.testWithPathFinding;
 
 import java.awt.Color;
 import java.awt.Graphics;

@@ -1,4 +1,4 @@
-package org.gaopan.randomMap.tests;
+package org.gaopan.randomMap.test;
 
 import java.awt.Graphics;
 import java.awt.Image;

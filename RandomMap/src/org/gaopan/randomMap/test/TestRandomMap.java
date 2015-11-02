@@ -1,4 +1,4 @@
-package org.gaopan.randomMap.tests;
+package org.gaopan.randomMap.test;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;

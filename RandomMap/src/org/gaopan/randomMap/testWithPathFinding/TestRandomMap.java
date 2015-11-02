@@ -1,4 +1,4 @@
-package pathFinding.tests.randomMap;
+package org.gaopan.randomMap.testWithPathFinding;
 
 import java.awt.FileDialog;
 import java.awt.Image;
@@ -23,13 +23,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.gaopan.randomMap.Tile;
+import org.gaopan.randomMap.TileMap;
+
 import pathFinding.AStarData;
 import pathFinding.AStarDataMgr;
 import pathFinding.AStarMultiTileMap;
 import pathFinding.core.AStarCell;
 import pathFinding.core.AStarMap;
-import xtile.Tile;
-import xtile.TileMap;
 
 public class TestRandomMap extends JFrame {    
 	private static final long serialVersionUID = 1L;
