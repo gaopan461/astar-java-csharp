@@ -31,7 +31,7 @@ public class AStarMapEditorPanel extends JPanel {
 			public void mouseDragged(MouseEvent e) {
 				super.mouseDragged(e);
 				int cellX = e.getX() / AStarMapEditorPanel.this.cellSize;
-				int cellY = AStarMapEditorPanel.this.cellHeight - e.getY() / AStarMapEditorPanel.this.cellSize;
+				int cellY = e.getY() / AStarMapEditorPanel.this.cellSize;
 				
 				if(cellX < 0 || cellX >= AStarMapEditorPanel.this.cellWidth 
 						|| cellY < 0 || cellY >= AStarMapEditorPanel.this.cellHeight) {
