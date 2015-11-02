@@ -6,6 +6,8 @@ import java.awt.Image;
 import javax.swing.JPanel;
 
 public class ImageViewer extends JPanel {
+	private static final long serialVersionUID = 1L;
+	
 	private Image image;
 	private int xCoordinate;
 	private int yCoordinate;
